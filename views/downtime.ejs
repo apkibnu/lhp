@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/image/logo-astra-otoparts-600x600-modified.png" <!-- MATERIAL ICONS -- />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet" <!--GOOGLE FONTS (POPPINS)-- />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Roboto:wght@300&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Poppins:wght@400;500;600;700;800;900&family=Roboto+Condensed:wght@300&family=Roboto:wght@300&display=swap" rel="stylesheet" />
+    <!-- STYLESHEET-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/CSS/style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io-client-4.5.1/dist/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>DT MATERIAL</title>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-sm navbar-dark py-0 m-0" style="background-color: midnightblue"> <!--NAVBAR-->
+        <div class="container-fluid">
+          <div class="round-container">                     <!--BACK BUTTON LEFT SIDE-->
+            <a onclick="window.history.back()" class="back-round">
+              <span class="material-symbols-sharp"> arrow_back </span>
+            </a>
+          </div>
+          <div class="container" style="width: max-content; border: transparent; background-color: white; border-radius: 50px">
+            <a class="navbar-brand" href="#">
+              <img src="/image/nusametal1.png" id="brand-nusametal" height="53" />
+            </a>
+          </div>                                             <!--LOGO PERUSAHAAN-->
+          <!-- Links -->
+          <div class="collapse navbar-collapse" id="mynavbar">
+            <div class="col-sm-4 col-lg-6 col-xl-7 ps-5">     <!--CLOCK & DATE-->
+              <div class="row d-flex flex-column float-end gs-2">
+                <div class="col-12 float-end">
+                  <div id="clock-container" class="float-end">
+                    <script>
+                      function Time() {
+                        // Creating object of the Date class
+                        var date = new Date();
+                        // Get current hour
+                        var hour = date.getHours();
+                        // Get current minute
+                        var minute = date.getMinutes();
+                        // Get current second
+                        var second = date.getSeconds();
+                        hour = update(hour);
+                        minute = update(minute);
+                        second = update(second);
+                        // Adding time elements to the div
+                        document.getElementById('clock-container').innerHTML = hour + ' : ' + minute + ' : ' + second + ' ';
+                        // Set Timer to 1 sec (1000 ms)
+                        setTimeout(Time, 1000);
+                      }
+                      // Function to update time elements if they are less than 10
+                      // Append 0 before time elements if they are less than 10
+                      function update(t) {
+                        if (t < 10) {
+                          return '0' + t;
+                        } else {
+                          return t;
+                        }
+                      }
+                      Time();
+                    </script>
+                  </div>
+                </div>
+                <div class="col-12 float-end">
+                  <div id="date-container" class="float-end">
+                    <script>
+                      var date = new Date();
+                      var tahun = date.getFullYear();
+                      var bulan = date.getMonth();
+                      var tanggal = date.getDate();
+                      var hari = date.getDay();
+                      var jam = date.getHours();
+                      var menit = date.getMinutes();
+                      var detik = date.getSeconds();
+                      switch (hari) {
+                        case 0:
+                          hari = 'Minggu';
+                          break;
+                        case 1:
+                          hari = 'Senin';
+                          break;
+                        case 2:
+                          hari = 'Selasa';
+                          break;
+                        case 3:
+                          hari = 'Rabu';
+                          break;
+                        case 4:
+                          hari = 'Kamis';
+                          break;
+                        case 5:
+                          hari = "Jum'at";
+                          break;
+                        case 6:
+                          hari = 'Sabtu';
+                          break;
+                      }
+                      switch (bulan) {
+                        case 0:
+                          bulan = 'Jan';
+                          break;
+                        case 1:
+                          bulan = 'Feb';
+                          break;
+                        case 2:
+                          bulan = 'Mar';
+                          break;
+                        case 3:
+                          bulan = 'Apr';
+                          break;
+                        case 4:
+                          bulan = 'Mei';
+                          break;
+                        case 5:
+                          bulan = 'Jun';
+                          break;
+                        case 6:
+                          bulan = 'Jul';
+                          break;
+                        case 7:
+                          bulan = 'Ags';
+                          break;
+                        case 8:
+                          bulan = 'Sep';
+                          break;
+                        case 9:
+                          bulan = 'Okt';
+                          break;
+                        case 10:
+                          bulan = 'Nov';
+                          break;
+                        case 11:
+                          bulan = 'Des';
+                          break;
+                      }
+                      var tampilTanggal = tanggal + ' ' + bulan + ' ' + tahun;
+                      document.getElementById('date-container').innerHTML = tampilTanggal;
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-11 col-lg-7 col-xl-7 ps-4">    <!--SHIFT & NAME-->
+              <div class="row d-flex flex-row g-1" style="margin-top: -2px !important">
+                <div class="col-sm-3 col-lg-3 col-xl-2 m-1 d-grid">
+                  <div class="shift-indicator">
+                    <h5>Shift :</h5>
+                    <a>
+                      <span class="material-symbols-sharp" id="shift-1"> looks_one </span>
+                    </a>
+                    <a>
+                      <span class="material-symbols-sharp" id="shift-2"> looks_two </span>
+                    </a>
+                    <a>
+                      <span class="material-symbols-sharp" id="shift-3"> looks_3 </span>
+                    </a>
+                    <script>
+                      var masuk1 = 0;
+                      var pulang1 =  7 * 60 + 10;
+                      var masuk2 = pulang1;
+                      var pulang2 =  16 * 60;
+                      var masuk3 = pulang2;
+                      var pulang3 = 23 * 60 + 59;
+                      function updateshift() {
+                        var date = new Date(); 
+                        var now = date.getHours() * 60 + date.getMinutes();
+                        if (masuk1 <= now && now <= pulang1) { 
+                          document.getElementById("shift-1").className = "material-symbols-sharp active"
+                        } else if (masuk2 <= now && now <= pulang2) {
+                          document.getElementById("shift-2").className = "material-symbols-sharp active"
+                        } else if (masuk3 <= now && now <= pulang3) {
+                          document.getElementById("shift-3").className = "material-symbols-sharp active"
+                        }
+                        setTimeout(updateshift, 1000)
+                      }
+                      updateshift()
+                    </script>
+                  </div>
+                </div>
+                <div class="col-sm-5 col-lg-6 col-xl-6 m-1 ms-3 d-grid">
+                  <div class="nama-part px-1">
+                    <h4><%= nama1 %> </h4>
+                    <h5><%= nrp1 %> </h5>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="col-sm-12 ml-3">              <!--COL NAMA PART DLL-->
+        <div class="row gx-1 py-0 d-flex flex-row mx-1">
+          <div class="col-sm-2 col-sm-2 col-lg-2 d-grid">
+            <div class="card border-dark m-1" id="card-prodd">
+              <div class="card-header bg-secondary text-light border-dark" id="card-production" style="text-align: center; font-size: 12px; font-weight: bolder">NAMA PART</div>
+              <div class="card-text m-auto" style="text-align: center;">
+                <h6><%= namapart %></h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2 col-sm-2 col-lg-2">
+            <div class="card border-dark m-1" id="card-prodd">
+              <div class="card-header bg-info border-dark" id="card-production" style="text-align: center; font-size: 12px; font-weight: bolder">PRODUCTION</div>
+              <div class="card-text mx-auto">
+                <h1 id="totalp"><%= totalp %></h1>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2 col-sm-2 col-lg-2">
+            <div class="card border-dark m-1" id="card-okk">
+              <div class="card-header border-dark" id="card-production" style="text-align: center; background-color: chartreuse; font-size: 12px; font-weight: bolder">OK</div>
+              <div class="card-text mx-auto">
+                <h1 id="totalok"><%= totalok %></h1>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2 col-sm-2 col-lg-2">
+            <div class="card border-dark m-1" id="card-rejectt">
+              <a href="/<%= part %>/<%= idprod %>/<%= line %>" class="d-grid p-0" style="text-decoration: none;">
+                <button type="button" class="btn btn-danger border-dark" value="input" style=" height: 2.2rem; margin-top: -0.1px; margin-left: -0.4px; font-size: 12px; font-weight: bolder">REJECTION</button>
+              </a>
+              <div class="card-text mx-auto">
+                <h1 id="ng"><%= ng %></h1>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <div class="card border-dark m-1" id="card-rejectt">
+              <a href="#" class="d-grid p-0" style="text-decoration: none;">
+                <button type="button" class="btn btn-warning border-dark d-grid" style="height: 2.2rem; margin-top: -0.1px; font-size: 12px; font-weight: bolder">DOWNTIME</button>
+              </a>
+              <div class="card-text mx-auto">
+                <h1 id="totaldt">0</h1>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2 col-sm-2 col-lg-2">
+            <div class="card border-dark m-1" id="card-dtt">
+              <div class="card-header bg-secondary text-light border-dark" id="card-production" style="text-align: center; font-size: 12px; font-weight: bolder">TARGET</div>
+              <div class="card-text mx-auto">
+                <h1 id="target"><%= target %></h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">                   <!--COL NAMA SCREEN-->
+        <div class="container-fluid text-light" style="text-align: center; background-color: midnightblue">"Digitalization smart counter machining line" "Screen Downtime"</div>
+      </div>
+      <div class="col-sm-12 p-2 mb-5">               <!--COL DOWNTIME MATERIAL-->
+        <div class="card p-0" style="border: 3px solid black; background-color: rgba(235, 229, 229, 0.315);">
+          <div class="card-header bg-warning border-dark m-0">
+            <h3 class="m-0">DT MATERIAL</h3>
+          </div>
+          <div class="row gx-1 py-0 d-flex flex-row">
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="material-stock_waiting">STOCK WAITING</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-sw"><%= Math.floor(resultmat[0].stock_waiting/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark m-0 p-0" id="card-rejection">
+                <button class="btn btn-danger btn-block" id="material-partial">PARTIAL</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-partial"><%= Math.floor(resultmat[0].partial/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger" id="material-sortir">SORTIR</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-sortir"><%= Math.floor(resultmat[0].sortir/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger" id="material-innerpart_kosong">INNERPART KOSONG</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-innerpart_kos"><%= Math.floor(resultmat[0].innerpart_kosong/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger" id="material-repair_part">REPAIR PART</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-repair_part"><%= Math.floor(resultmat[0].repair_part/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger" id="material-trimming">TRIMMING</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-trimming"><%= Math.floor(resultmat[0].trimming_part/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger" id="material-stock_opname">STOCK OPNAME</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-stock_opname"><%= Math.floor(resultmat[0].sto/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger" id="material-others">OTHERS MATERIAL</button>
+                <div class="card-content mx-auto">
+                  <h5 id="mat-others_mat"><%= Math.floor(resultmat[0].others_material/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-12 px-1 d-none d-xl-block" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-12 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-8 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-12 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-8 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-2 px-1 d-block d-sm-none" style="visibility: hidden">
+            <div class="card border-dark" id="card-rejection">
+              <button class="btn btn-danger">NG ASSY</button>
+              <div class="card-content mx-auto">
+                <h5>0 pcs</h5>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-4 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <div class="card-header">TOTAL DOWNTIME MATERIAL</div>
+                  <table class="table table-bordered m-0">
+                    <tbody>
+                      <tr>
+                        <td><h5 id="material-timer"><%= resulttotal[0].totalmat %> sec</h5></td>
+                        <td><h5>0 pcs</h5></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 p-2 mb-5">               <!--COL DOWNTIME PROCESS-->
+        <div class="card p-0" style="border: 3px solid black; background-color: rgba(235, 229, 229, 0.315);">
+          <div class="card-header bg-warning border-dark m-0">
+            <h3 class="m-0">DT PROCESS</h3>
+          </div>
+          <div class="row gx-1 py-0 d-flex flex-row">
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-set_program">SETT PROGRAM</button>
+                <div class="card-content m-auto">
+                  <h5 id="pro-set_program"><%= Math.floor(resultpro[0].setting_program/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-ganti_tool">GANTI TOOL</button>
+                <div class="card-content m-auto">
+                  <h5 id="pro-ganti_tool"><%= Math.floor(resultpro[0].ganti_tool/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-trial_non_machining">TRIAL NON MACHINING</button>
+                <div class="card-content mx-auto">
+                  <h5 id="pro-trial_non_machining"><%= Math.floor(resultpro[0].trial_non_mach/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-trial_machining">TRIAL MACHINING</button>
+                <div class="card-content m-auto"  style="text-align: center;">
+                  <h5 id="pro-trial_machining"><%= Math.floor(resultpro[0].trial_machining/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-q_time">Q-TIME</button>
+                <div class="card-content mx-auto">
+                  <h5 id="pro-q_time"><%= Math.floor(resultpro[0].q_time/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-jig_fixture">JIG & FIXTURE</button>
+                <div class="card-content mx-auto">
+                  <h5 id="pro-jig_fixture"><%= Math.floor(resultpro[0].jig_fixture/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-waiting_cmm">WAITING CMM</button>
+                <div class="card-content mx-auto">
+                  <h5 id="pro-waiting_cmm"><%= Math.floor(resultpro[0].waiting_cmm/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-ukur_manual">UKUR MANUAL</button>
+                <div class="card-content mx-auto">
+                  <h5 id="pro-ukur_manual"><%= Math.floor(resultpro[0].ukur_manual/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-lt_part_imprag">LEAKTEST PART IMPRAG</button>
+                <div class="card-content m-auto">
+                  <h5 id="pro-lt_part_imprag"><%= Math.floor(resultpro[0].lt_imprag/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-ganti_treebond">GANTI TREEBOND</button>
+                <div class="card-content m-auto">
+                  <h5 id="pro-ganti_treebond"><%= Math.floor(resultpro[0].ganti_treebond/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-perubahan_proses">PERUBAHAN PROSES</button>
+                <div class="card-content m-auto">
+                  <h5 id="pro-perubahan_proses"><%= Math.floor(resultpro[0].perubahan_proses/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-job_setup">JOB SET UP</button>
+                <div class="card-content m-auto">
+                  <h5 id="pro-job_setup"><%= Math.floor(resultpro[0].job_setup/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="proses-others">OTHER PROCESS</button>
+                <div class="card-content mx-auto">
+                  <h5 id="pro-others"><%= Math.floor(resultpro[0].others_proses/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-10 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 px-1 d-block d-sm-none" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <div class="card-header">TOTAL DOWNTIME PROCESS</div>
+                  <table class="table table-bordered m-0">
+                    <tbody>
+                      <tr>
+                        <td><h5 id="proses-timer"><%= resulttotal[0].totalpro %> sec</h5></td>
+                        <td><h5>0 pcs</h5></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 p-2 mb-5">               <!--COL DOWNTIME MACHINE-->
+        <div class="card p-0" style="border: 3px solid black; background-color: rgba(235, 229, 229, 0.315);">
+          <div class="card-header bg-warning border-dark m-0">
+            <h3 class="m-0">DT MACHINE</h3>
+          </div>
+          <div class="row gx-1 py-0 d-flex flex-row">
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-mc_trouble">M/C TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-mc_trouble"><%= Math.floor(resultmac[0].mc_trouble/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-mc_assy_trouble">M/C ASSY TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-mc_assy_trouble"><%= Math.floor(resultmac[0].mc_assy_trouble/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-mc_lt_trouble">M/C LEAKTEST TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-mc_lt_trouble"><%= Math.floor(resultmac[0].lt_trouble/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-washing_trouble">WASHING TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-washing_trouble"><%= Math.floor(resultmac[0].washing_trouble/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-warming_up">WARMING UP</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-warming_up"><%= Math.floor(resultmac[0].warming_up/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-angin_drop">ANGIN DROP</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-angin_drop"><%= Math.floor(resultmac[0].angin_drop/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-penambahan_coolant">PENAMBAHAN COOLANT</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-penambahan_coolant"><%= Math.floor(resultmac[0].penambahan_coolant/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="mach-others">OTHERS MACHINE</button>
+                <div class="card-content m-auto">
+                  <h5 id="machi-others"><%= Math.floor(resultmac[0].others_mc/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+                <div class="card border-dark" id="card-rejection">
+                  <button class="btn btn-danger">NG ASSY</button>
+                  <div class="card-content mx-auto">
+                    <h5>0 pcs</h5>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-12 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+                <div class="card border-dark" id="card-rejection">
+                  <button class="btn btn-danger">NG ASSY</button>
+                  <div class="card-content mx-auto">
+                    <h5>0 pcs</h5>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-8 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 px-1 d-block d-sm-none" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-1">
+                <div class="card border-dark" id="card-rejection">
+                  <div class="card-header">TOTAL DOWNTIME MACHINE</div>
+                    <table class="table table-bordered m-0">
+                      <tbody>
+                        <tr>
+                          <td><h5 id="mesin-timer"><%= resulttotal[0].totalmesin %> sec</h5></td>
+                          <td><h5>0 pcs</h5></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 p-2 mb-5">               <!--COL DOWNTIME AUTOMATION-->
+        <div class="card p-0" style="border: 3px solid black; background-color: rgba(235, 229, 229, 0.315);">
+          <div class="card-header bg-warning border-dark m-0">
+            <h3 class="m-0">DT AUTOMATION</h3>
+          </div>
+          <div class="row gx-1 py-0 d-flex flex-row">
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="auto-gagal_vacum">GAGAL VACUM</button>
+                <div class="card-content m-auto">
+                  <h5 id="aut-gagal_vacum"><%= Math.floor(resultauto[0].gagal_vacum/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="auto-gagal_ambil">GAGAL AMBIL</button>
+                <div class="card-content m-auto">
+                  <h5 id="aut-gagal_ambil"><%= Math.floor(resultauto[0].gagal_ambil/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="auto-instocker_trouble">INSTOCKER TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="aut-instocker_trouble"><%= Math.floor(resultauto[0].instocker/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="auto-outstocker_trouble">OUTSTOCKER TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="aut-outstocker_trouble"><%= Math.floor(resultauto[0].outstocker/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="auto-feeder_trouble">FEEDER TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="aut-feeder_trouble"><%= Math.floor(resultauto[0].feeder/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="auto-flipper_trouble">FLIPPER TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="aut-flipper_trouble"><%= Math.floor(resultauto[0].flipper/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="auto-robot_trouble">ROBOT TROUBLE</button>
+                <div class="card-content m-auto">
+                  <h5 id="aut-robot_trouble"><%= Math.floor(resultauto[0].robot/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-10 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 px-1 d-block d-sm-none" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <div class="card-header">TOTAL DOWNTIME AUTOMATION</div>
+                  <table class="table table-bordered m-0">
+                    <tbody>
+                      <tr>
+                        <td><h5 id="auto-timer"><%= resulttotal[0].totalauto %> sec</h5></td>
+                        <td><h5>0 pcs</h5></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 p-2 mb-5">               <!--COL DOWNTIME OTHERS-->
+        <div class="card p-0" style="border: 3px solid black; background-color: rgba(235, 229, 229, 0.315);">
+          <div class="card-header bg-warning border-dark m-0">
+            <h3 class="m-0">DT OTHERS</h3>
+          </div>
+          <div class="row gx-1 py-0 d-flex flex-row">
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="others-persiapan_produksi">PERSIAPAN PRODUKSI</button>
+                <div class="card-content m-auto">
+                  <h5 id="other-persiapan_produksi"><%= Math.floor(resultoth[0].persiapan_prod/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="others-listrik_mati">LISTRIK MATI</button>
+                <div class="card-content m-auto">
+                  <h5 id="other-listrik_mati"><%= Math.floor(resultoth[0].listrik_mati/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="others-kuras_washing">KURAS WASHING</button>
+                <div class="card-content m-auto">
+                  <h5 id="other-kuras_washing"><%= Math.floor(resultoth[0].kuras_washing/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="others-p5m">P5M / PATAKA</button>
+                <div class="card-content m-auto">
+                  <h5 id="other-p5m"><%= Math.floor(resultoth[0].p5m/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="others-mp_sakit">MP SAKIT</button>
+                <div class="card-content m-auto">
+                  <h5 id="other-mp_sakit"><%= Math.floor(resultoth[0].mp_sakit/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="others-others">OTHERS</button>
+                <div class="card-content m-auto">
+                  <h5 id="other-others"><%= Math.floor(resultoth[0].others/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 px-1 d-block d-sm-none" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <div class="card-header">TOTAL DOWNTIME OTHERS</div>
+                  <table class="table table-bordered m-0">
+                    <tbody>
+                      <tr>
+                        <td><h5 id="others-timer"><%= resulttotal[0].totaloth %> sec</h5></td>
+                        <td><h5>0 pcs</h5></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 p-2">                    <!--COL DOWNTIME TERPLANNING-->
+        <div class="card p-0" style="border: 3px solid black; background-color: rgba(235, 229, 229, 0.315);">
+          <div class="card-header bg-warning border-dark m-0">
+            <h3 class="m-0">DT TERPLANNING</h3>
+          </div>
+          <div class="row gx-1 py-0 d-flex flex-row">
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-5r">5R</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-5r"><%= Math.floor(resultplan[0]['5r']/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-mp_pengganti">MP PENGGANTI</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-mp_pengganti"><%= Math.floor(resultplan[0].mp_pengganti/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-ct_tidak_standart">CT TIDAK STANDART</button>
+                <div class="card-content mx-auto">
+                  <h5 id="planning-ct_tidak_standart"><%= Math.floor(resultplan[0].ct_tidak_standart/60); %> mnt</h5>
+                </div> 
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-mp_dialihkan">MP DIALIHKAN</button>
+                <div class="card-content m-auto"  style="text-align: center;">
+                  <h5 id="planning-mp_dialihkan"><%= Math.floor(resultplan[0].mp_dialihkan/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-dandori">DANDORI</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-dandori"><%= Math.floor(resultplan[0].dandori/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-preventive_mt">PREVENTIVE MAINTENANCE</button>
+                <div class="card-content mx-auto">
+                  <h5 id="planning-preventive_mt"><%= Math.floor(resultplan[0].preventive_maint/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-prod_part_lain">PROD. PART LAIN</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-prod_part_lain"><%= Math.floor(resultplan[0].prod_part_lain/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-prod_2/3_jig">PROD 2 / 3 JIG</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-prod_2/3_jig"><%= Math.floor(resultplan[0]['produksi_2/3_jig']/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-prod_1_mp">PROD. 1 MP</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-prod_1_mp"><%= Math.floor(resultplan[0]['produksi_1_m/p']/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-prod_2_mc">PROD. 2 MC</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-prod_2_mc"><%= Math.floor(resultplan[0]['produksi_2_m/c']/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-overlap_line_lain">OVERLAP LINE LAIN</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-overlap_line_lain"><%= Math.floor(resultplan[0].overlap_line_lain/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-layoff_mp">LAY OFF MP</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-layoff_mp"><%= Math.floor(resultplan[0].layoff_manpower/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-layoff_stock_waiting">LAY OFF STOCK WAITING</button>
+                <div class="card-content mx-auto">
+                  <h5 id="planning-layoff_stock_waiting"><%= Math.floor(resultplan[0].layoff_stock_waiting/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-layoff_tool_kosong">LAY OFF TOOL KOSONG</button>
+                <div class="card-content mx-auto">
+                  <h5 id="planning-layoff_tool_kosong"><%= Math.floor(resultplan[0].layoff_tool_kosong/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-layoff_komp_spm">LAY OFF KOMP. SPM</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-layoff_komp_spm"><%= Math.floor(resultplan[0].layoff_komp_spm/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1 d-grid">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-layoff_komp_cnc">LAY OFF KOMP. CNC</button>
+                <div class="card-content m-auto">
+                  <h5 id="planning-layoff_komp_cnc"><%= Math.floor(resultplan[0].layoff_komp_cnc/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xl-2 p-1">
+              <div class="card border-dark d-grid" id="card-rejection">
+                <button type="button" class="btn btn-danger" id="terplanning-packaging_kosong">PACKAGING KOSONG</button>
+                <div class="card-content mx-auto">
+                  <h5 id="planning-packaging_kosong"><%= Math.floor(resultplan[0].packaging_kosong/60); %> mnt</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-10 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-none d-xl-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-xl-none d-none d-lg-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 px-1 d-lg-none d-none d-md-block" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 px-1 d-block d-sm-none" style="visibility: hidden">
+              <div class="card border-dark" id="card-rejection">
+                <button class="btn btn-danger">NG ASSY</button>
+                <div class="card-content mx-auto">
+                  <h5>0 pcs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-1">
+              <div class="card border-dark" id="card-rejection">
+                <div class="card-header">TOTAL DOWNTIME PROCESS</div>
+                  <table class="table table-bordered m-0">
+                    <tbody>
+                      <tr>
+                        <td><h5 id="terplanning-timer"><%= resulttotal[0].totalplan %> sec</h5></td>
+                        <td><h5>0 pcs</h5></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="ppp">Click Me!</button>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Tiket Anda Selesai</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Apakah Anda Yakin Downtime Sudah Selesai?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-no">TIDAK</button>
+                <button type="button" class="btn btn-success" id="modal-ya">YA</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <footer class="text-center" style="background-color: midnightblue;"> <!--FOOTER-->
+      <div class="text-center p-3 text-light">
+        &copy; 2022 Copyright:
+        <a class="text-light" href="https://www.smartsyst.my.id/">PE Digitalization</a>
+      </div>
+    </footer>
+    <script>
+      var ng = parseInt("<%= ng %>");
+      var totalp = parseInt("<%= totalp %>");
+      var ok = parseInt("<%= totalok %>");
+      var secondmat = parseInt("<%= resulttotal[0].totalmat %>");
+      var secondmach = parseInt("<%= resulttotal[0].totalmesin %>");
+      var secondpro = parseInt("<%= resulttotal[0].totalpro %>");
+      var secondauto = parseInt("<%= resulttotal[0].totalauto %>");
+      var secondothers = parseInt("<%= resulttotal[0].totaloth %>");
+      var secondplan = parseInt("<%= resulttotal[0].totalplan%>");
+      var $inputs = $('button.btn-danger');
+      var dtcheck = '<%= dtcheck %>'
+      var idprod = "<%= idprod %>"
+      var namapart = "<%= namapart %>"
+      var nrp = "<%= nrp1 %>"
+      var line = "<%= line %>"
+      window.addEventListener( "pageshow", function ( event ) {
+        var historyTraversal = event.persisted || ( typeof window.performance != "undefined" && window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+          // Handle page restore.
+          window.location.reload();
+        }
+      })
+    </script>
+    <script src="/main.js"></script>
+  </body>
+</html>

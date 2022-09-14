@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preparation</title>
+    <link rel="shortcut icon" href="image/logo-astra-otoparts-600x600-modified.png" <!-- MATERIAL ICONS -- />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet" <!--GOOGLE FONTS (POPPINS)-- />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Roboto:wght@300&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Poppins:wght@400;500;600;700;800;900&family=Roboto+Condensed:wght@300&family=Roboto:wght@300&display=swap" rel="stylesheet" />
+    <!-- STYLESHEET-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/charts-custom.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: midnightblue">
+        <div class="container-fluid">
+          <div class="round-container">
+            <a href="#" class="back-round">
+              <span class="material-symbols-sharp"> arrow_back </span>
+            </a>
+          </div>
+          <div class="container" style="width: max-content; border: transparent; background-color: white; border-radius: 50px">
+            <a class="navbar-brand" href="#">
+              <img src="images/nusametal1.png" id="brand-nusametal" height="53" />
+            </a>
+          </div>
+          <!-- Links -->
+          <div class="collapse navbar-collapse" id="mynavbar">
+            <div class="col-sm-6 col-md-9 col-lg-4 col-xl-10">
+              <div class="row d-flex flex-row gx-1 float-end">
+                <div class="col-sm-4 col-md-6 col-lg-6 col-xl-6 p-1 d-grid">
+                  <div id="clock-container" class="d-grid me-3">
+                    <script>
+                      function Time() {
+                        // Creating object of the Date class
+                        var date = new Date();
+                        // Get current hour
+                        var hour = date.getHours();
+                        // Get current minute
+                        var minute = date.getMinutes();
+                        // Get current second
+                        var second = date.getSeconds();
+                        hour = update(hour);
+                        minute = update(minute);
+                        second = update(second);
+                        // Adding time elements to the div
+                        document.getElementById('clock-container').innerHTML = ' Jam: <br> ' + hour + ' : ' + minute + ' : ' + second + ' ';
+                        // Set Timer to 1 sec (1000 ms)
+                        setTimeout(Time, 1000);
+                      }
+                      // Function to update time elements if they are less than 10
+                      // Append 0 before time elements if they are less than 10
+                      function update(t) {
+                        if (t < 10) {
+                          return '0' + t;
+                        } else {
+                          return t;
+                        }
+                      }
+                      Time();
+                    </script>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-xl-6 p-1 d-grid">
+                  <div id="date-container" class="d-grid ms-3">
+                    <script>
+                      var date = new Date();
+                      var tahun = date.getFullYear();
+                      var bulan = date.getMonth();
+                      var tanggal = date.getDate();
+                      var hari = date.getDay();
+                      var jam = date.getHours();
+                      var menit = date.getMinutes();
+                      var detik = date.getSeconds();
+                      switch (hari) {
+                        case 0:
+                          hari = 'Minggu';
+                          break;
+                        case 1:
+                          hari = 'Senin';
+                          break;
+                        case 2:
+                          hari = 'Selasa';
+                          break;
+                        case 3:
+                          hari = 'Rabu';
+                          break;
+                        case 4:
+                          hari = 'Kamis';
+                          break;
+                        case 5:
+                          hari = "Jum'at";
+                          break;
+                        case 6:
+                          hari = 'Sabtu';
+                          break;
+                      }
+                      switch (bulan) {
+                        case 0:
+                          bulan = '01';
+                          break;
+                        case 1:
+                          bulan = '02';
+                          break;
+                        case 2:
+                          bulan = '03';
+                          break;
+                        case 3:
+                          bulan = '04';
+                          break;
+                        case 4:
+                          bulan = '05';
+                          break;
+                        case 5:
+                          bulan = '06';
+                          break;
+                        case 6:
+                          bulan = '07';
+                          break;
+                        case 7:
+                          bulan = '08';
+                          break;
+                        case 8:
+                          bulan = '09';
+                          break;
+                        case 9:
+                          bulan = '10';
+                          break;
+                        case 10:
+                          bulan = '11';
+                          break;
+                        case 11:
+                          bulan = '12';
+                          break;
+                      }
+                      var tampilTanggal = 'Tanggal: <br> ' + tanggal + '/' + bulan + '/' + tahun;
+                      document.getElementById('date-container').innerHTML = tampilTanggal;
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-7 col-lg-4">
+              <div class="row d-flex flex-row g-1" style="margin-top: -2px !important">
+                <div class="col-sm-10 col-md-5 col-lg-6 mx-1 ps-4">
+                  <div class="shift-indicator p-0">
+                    <h5>Shift :</h5>
+                    <a>
+                      <span class="material-symbols-sharp" id="shift-1"> looks_one </span>
+                    </a>
+                    <a>
+                      <span class="material-symbols-sharp" id="shift-2"> looks_two </span>
+                    </a>
+                    <a>
+                      <span class="material-symbols-sharp" id="shift-3"> looks_3 </span>
+                    </a>
+                    <script>
+                      if (hour >= 0 && hour <= 7 && minute <= 10) {
+                        const element = document.getElementById('shift-1');
+                        element.className('material-symbols-sharp active');
+                      } else if (hour >= 7 && minutes >= 10 && hour <= 4) {
+                        const element = document.getElementById('shift-2');
+                        element.className('material-symbols-sharp active');
+                      } else if (hour >= 4 && hour <= 0) {
+                        const element = document.getElementById('shift-3');
+                        element.className('material-symbols-sharp active');
+                      }
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Judul -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card-header my-2 bg-secondary text-light text-center p-0">
+          <h1>INFORMATION</h1>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Judul -->
+
+    <main>
+      <section class="dashInfo">
+        <form id="formprep" action="/preparation" method="post" style="background: none;">
+          <div class="container mb-2 bg-light" style="border: 1px black solid">
+            <div class="row p-4 d-flex h-100">
+              <!-- Preparation -->
+              <div class="col-md-4 mb-3 justify-content-center align-items-center p-0">
+                <div class="row d-flex m-1 h-100">
+                  <div class="col text-center d-grid">
+                    <h4 class="mt-3 d-grid">Preparation</h4>
+                  </div>
+                  <div class="col-12 m-0" style="height: fit-content; text-align: center">
+                    <h5 class="m-0">Nama Part:</h5>
+                  </div>
+                  
+                    <select name="cluster" id="ListCluster" onChange="check();" class="m-0" class="d-grid mb-4 mt-4 p-1">
+                      <option value="CLUSTER 1">CLUSTER 1</option>
+                      <option value="CLUSTER 2">CLUSTER 2</option>
+                      <option value="CLUSTER 3">CLUSTER 3</option>
+                      <option value="CLUSTER 4">CLUSTER 4</option>
+                    </select>
+                  
+
+                  
+                    <select name="line" id="Listline" onChange="check();" class="m-0">
+                      <option value="LINE 1">LINE 1</option>
+                      <option value="LINE 2">LINE 2</option>
+                      <option value="LINE 3">LINE 3</option>
+                      <option value="LINE 4">LINE 4</option>
+                    </select>
+                  
+
+                  
+                    <select name="namapart" class="m-0" id="namaparts" onChange="check();" class="m-0">
+                      <% for (let i = 0; i < res1.length; i++) { %>
+                        <option value="<%= res1[i].NAMA_PART %>"><%= res1[i].NAMA_PART %></option>
+                      <% } %> 
+                    </select>
+                 
+
+                  <button class="btn btn-primary mt-2" id="resume">
+                    Submit
+                    <a href=""></a>
+                  </button>
+                </div>
+              </div>
+              <!-- Akhir prep -->
+
+              <!-- Mode -->
+              <div class="col-md-8 mt-3">
+                <div class="row d-flex h-auto">
+                  <div class="col-md-6 d-grid p-2">
+                    <div class="card border-dark d-grid" id="card-mode">
+                      <div class="card-header text-center bg-info border-dark">
+                        <h4>Mode</h4>
+                      </div>
+                      
+                        <select name="mode" id="mode" onChange="check();" class="d-grid p-1 mb-4 mt-4">
+                          <option value="1CNC">1 CNC</option>
+                          <option value="2CNC">2 CNC</option>
+                          <option value="3CNC">3 CNC</option>
+                          <option value="4CNC">4 CNC</option>
+                        </select>
+                     
+                      
+                        <select name="mode" id="mode2" onChange="check();" class="d-grid p-1 mb-4">
+                          <option value="AUTO">AUTO</option>
+                          <option value="MANUAL">MANUAL</option>
+                        </select>
+                      
+                      
+                        <input type="number" class="form-control border-dark d-grid p-1 mb-5 mt-2" placeholder="CYCLE TIME" readonly />
+
+                    </div>
+                  </div>
+
+                  <!-- Button Man power -->
+                  <div class="col-md-6 p-2 d-grid">
+                    <div class="card border-dark">
+                      <div class="card-header text-center border-dark bg-warning">
+                        <h4>Man Power</h4>
+                      </div>
+                      <div class="row">
+                        <div class="col-4 col-sm-5">
+                          <div class="bg-body m-1">
+                            <input type="text" class="form-control border-dark mb-4" id="nrp1" placeholder="NRP" name="nrp1" required/>
+                            <input type="text" class="form-control border-dark mb-4" id="nrp2" placeholder="NRP" name="nrp2" />
+                            <input type="text" class="form-control border-dark mb-4" id="nrp3" placeholder="NRP" name="nrp3" />
+                            <input type="text" class="form-control border-dark mb-4" id="nrp4" placeholder="NRP" name="nrp4" />
+                          </div>
+                        </div>
+                        <div class="col-8 col-sm-7">
+                          <div class="bg-body m-1">
+                            <input type="text" class="form-control border-dark mb-4" placeholder="Nama" id="nama1" name="nama1" autocomplete="off" required/>
+                            <input type="text" class="form-control border-dark mb-4" placeholder="Nama" id="nama2" name="nama2" autocomplete="off"  />
+                            <input type="text" class="form-control border-dark mb-4" placeholder="Nama" id="nama3" name="nama3" autocomplete="off"  />
+                            <input type="text" class="form-control border-dark mb-4" placeholder="Nama" id="nama4" name="nama4" autocomplete="off"  />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Akhir MAN POWER-->
+                </div>
+
+                <!-- Mode Production -->
+                <!--         <div class="row d-flex border m-0 my-4 h-auto">
+                  <div class="col-12 p-2 h-auto">
+                    <h4 class="text-center">Production Mode</h4>
+
+                    <div class="row ps-5">
+                      <div class="col text-start">
+                        <div class="card bg-light d-flex flex-row" style="border: 1px solid black">
+                          <input class="m-0 p-0 w-25 text-md-center" type="read" id="box-cnc" style="border: none; width: max-content; background-color: transparent" readonly />
+                          <input class="m-0 p-0 w-50" type="read" id="box-cnc2" style="border: none; width: max-content; background-color: transparent" readonly />
+                          <script>
+                            function check() {
+                              document.getElementById('box-cnc').value = document.getElementById('mode').value;
+                              document.getElementById('box-cnc2').value = document.getElementById('mode2').value;
+                            }
+                          </script>
+                        </div>
+                      </div>
+                      <div class="col text-md-end me-5">
+                        <div class="card bg-light" style="border: 1px solid black">
+                          <input class="m-0 p-0 w-25" type="number" id="waktu-2cnc-auto" name="waktu 2cnc-auto" style="border: none" readonly />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <!-- Akhir Prodmod -->
+              </div>
+              <!-- Akhir Mode -->
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="text-center" style="background-color: midnightblue">
+      <!--FOOTER-->
+      <div class="text-center p-3 text-light">
+        &copy; 2022 Copyright:
+        <a class="text-light" href="https://www.smartsyst.my.id/">PE Digitalization</a>
+      </div>
+    </footer>
+  </body>
+</html>
