@@ -142,10 +142,10 @@ io.on('connection', (socket) => {
             updateshift()
             trackerTotal = result1[0].TOTAL_PRODUKSI
             if (shift != result1[0].SHIFT) {
-                clearInterval(global[`lt-${line}-${namapart}-${id}`])
+                // clearInterval(global[`lt-${line}-${namapart}-${id}`])
                 clearInterval(global[`trgt-${line}-${namapart}-${id}`])
                 global[`trgt-${line}-${namapart}-${id}`] = null
-                global[`ln-${line}-${namapart}-${id}`] = null
+                // global[`ln-${line}-${namapart}-${id}`] = null
             }
         })
         if (global[`dtcheck-${id}`]) {
@@ -167,7 +167,13 @@ io.on('connection', (socket) => {
                                 clearInterval(global[`trgt-${line}-${namapart}`])
                                 global[`trgt-${line}-${namapart}-${id}`] = null
                                 console.log('int stop')
-                            } else if (((9 * 60) + 35 <= now && now < (9 * 60) + 45) || ((12 * 60) + 5 <= now && now < (12 * 60) + 45) || ((14 * 60) + 25 <= now && now < (14 * 60) + 35) || ((15 * 60) + 50 <= now && now < (16 * 60))) {
+                            } else if (((2 * 60) <= now && now < (2 * 60) + 10) || ((4 * 60) + 30 <= now && now < (5 * 60))) {
+                                console.log('istirahat')
+                                return
+                            } else if (((9 * 60) + 30 <= now && now < (9 * 60) + 40) || ((12 * 60) <= now && now < (12 * 60) + 40) || ((14 * 60) + 20 <= now && now < (14 * 60) + 30)) {
+                                console.log('istirahat')
+                                return
+                            } else if (((18 * 60) <= now && now < (18 * 60) + 15)|| ((19 * 60) + 20 <= now && now < (20 * 60))|| ((21 * 60) + 50 <= now && now < (22 * 60))) {
                                 console.log('istirahat')
                                 return
                             } else {
@@ -176,35 +182,35 @@ io.on('connection', (socket) => {
                             }
                         })
                     }
-                    function lostTime(id) {
-                        updateshift()
-                        var date = new Date(); 
-                        var now = (date.getHours() * 60) + date.getMinutes()
-                        conLocal.query("select * from tb_produksi join tb_line on tb_produksi.line = tb_line.nama_line and tb_produksi.nama_part = tb_line.nama_part where tb_produksi.id = ?", [id] , (err, result12) => {
-                            console.log(z, result12[0].TOTAL_PRODUKSI, trackerTotal)
-                            if (global[`dtclick-${id}`]) {
-                                z = 0
-                                return
-                            } else if (shift != result12[0].SHIFT) {
-                                clearInterval(global[`lt-${line}-${namapart}`])
-                                global[`lt-${line}-${namapart}-${id}`] = null
-                            } else if (((2 * 60) <= now && now < (2 * 60) + 10) || ((4 * 60) + 30 <= now && now < (5 * 60)) || ((9 * 60) + 30 <= now && now < (9 * 60) + 40) || ((12 * 60) <= now && now < (12 * 60) + 40) || ((14 * 60) + 20 <= now && now < (14 * 60) + 30)|| ((18 * 60) <= now && now < (18 * 60) + 15)|| ((19 * 60) + 20 <= now && now < (20 * 60))|| ((21 * 60) + 50 <= now && now < (22 * 60))) {
-                                return
-                            } else if (z <= result12[0].CYCLE_TIME && result12[0].TOTAL_PRODUKSI > trackerTotal) {
-                                z = 0
-                                trackerTotal = result12[0].TOTAL_PRODUKSI
-                                console.log('under')
-                            } else if (z > result12[0].CYCLE_TIME && result12[0].TOTAL_PRODUKSI > trackerTotal){
-                                conLocal.query("update tb_produksi set lost_time = sec_to_time(time_to_sec(lost_time) + ?) where id = ?", [z - result12[0].CYCLE_TIME, id])
-                                trackerTotal = result12[0].TOTAL_PRODUKSI
-                                z = 0
-                                console.log('over')
-                            } else {
-                                z++;
-                                return
-                            }
-                        })
-                    }
+                    // function lostTime(id) {
+                    //     updateshift()
+                    //     var date = new Date(); 
+                    //     var now = (date.getHours() * 60) + date.getMinutes()
+                    //     conLocal.query("select * from tb_produksi join tb_line on tb_produksi.line = tb_line.nama_line and tb_produksi.nama_part = tb_line.nama_part where tb_produksi.id = ?", [id] , (err, result12) => {
+                    //         console.log(z, result12[0].TOTAL_PRODUKSI, trackerTotal)
+                    //         if (global[`dtclick-${id}`]) {
+                    //             z = 0
+                    //             return
+                    //         } else if (shift != result12[0].SHIFT) {
+                    //             clearInterval(global[`lt-${line}-${namapart}`])
+                    //             global[`lt-${line}-${namapart}-${id}`] = null
+                    //         } else if (((2 * 60) <= now && now < (2 * 60) + 10) || ((4 * 60) + 30 <= now && now < (5 * 60)) || ((9 * 60) + 30 <= now && now < (9 * 60) + 40) || ((12 * 60) <= now && now < (12 * 60) + 40) || ((14 * 60) + 20 <= now && now < (14 * 60) + 30)|| ((18 * 60) <= now && now < (18 * 60) + 15)|| ((19 * 60) + 20 <= now && now < (20 * 60))|| ((21 * 60) + 50 <= now && now < (22 * 60))) {
+                    //             return
+                    //         } else if (z <= result12[0].CYCLE_TIME && result12[0].TOTAL_PRODUKSI > trackerTotal) {
+                    //             z = 0
+                    //             trackerTotal = result12[0].TOTAL_PRODUKSI
+                    //             console.log('under')
+                    //         } else if (z > result12[0].CYCLE_TIME && result12[0].TOTAL_PRODUKSI > trackerTotal){
+                    //             conLocal.query("update tb_produksi set lost_time = sec_to_time(time_to_sec(lost_time) + ?) where id = ?", [z - result12[0].CYCLE_TIME, id])
+                    //             trackerTotal = result12[0].TOTAL_PRODUKSI
+                    //             z = 0
+                    //             console.log('over')
+                    //         } else {
+                    //             z++;
+                    //             return
+                    //         }
+                    //     })
+                    // }
                     conLocal.query("select * from tb_produksi where id = ?", [id] , (err, reshour) => {
                         conLocal.query("SELECT (TIME_TO_SEC(`5R`) + TIME_TO_SEC(MP_PENGGANTI) + TIME_TO_SEC(CT_TIDAK_STANDART) + TIME_TO_SEC(MP_DIALIHKAN) + TIME_TO_SEC(DANDORY) + TIME_TO_SEC(PREVENTIVE_MAINT) + TIME_TO_SEC(PROD_PART_LAIN) + TIME_TO_SEC(`PRODUKSI_2/3_JIG`) + TIME_TO_SEC(`PRODUKSI_1_M/P`) + TIME_TO_SEC(`PRODUKSI_2_M/C`) + TIME_TO_SEC(OVERLAP_LINE_LAIN) + TIME_TO_SEC(LAYOFF_MANPOWER) + TIME_TO_SEC(LAYOFF_TOOL_KOSONG) + TIME_TO_SEC(LAYOFF_KOMP_SPM) + TIME_TO_SEC(LAYOFF_KOMP_CNC) + TIME_TO_SEC(PACKAGING_KOSONG) + TIME_TO_SEC(LAYOFF_STOCK_WAITING)) AS totalplan,  (TIME_TO_SEC(gagal_vacum) + TIME_TO_SEC(gagal_ambil) + TIME_TO_SEC(instocker) + TIME_TO_SEC(outstocker) + TIME_TO_SEC(feeder) + TIME_TO_SEC(flipper) + TIME_TO_SEC(robot)) AS totalauto, (TIME_TO_SEC(MC_TROUBLE) + TIME_TO_SEC(MC_ASSY_TROUBLE) + TIME_TO_SEC(MC_SPM_DRILL) + TIME_TO_SEC(LT_TROUBLE) + TIME_TO_SEC(WASHING_TROUBLE) + TIME_TO_SEC(ANGIN_DROP) + TIME_TO_SEC(PENAMBAHAN_COOLANT) + TIME_TO_SEC(WARMING_UP) + TIME_TO_SEC(OTHERS_MC)) AS totalmesin, (TIME_TO_SEC(stock_waiting) + TIME_TO_SEC(PARTIAL) + TIME_TO_SEC(sortir) + TIME_TO_SEC(innerpart_kosong) + TIME_TO_SEC(repair_part) + TIME_TO_SEC(trimming_part) + TIME_TO_SEC(sto) + TIME_TO_SEC(others_material)) AS totalmat,  (TIME_TO_SEC(SETTING_PROGRAM) + TIME_TO_SEC(GANTI_TOOL) + TIME_TO_SEC(TRIAL_MACHINING) + TIME_TO_SEC(Q_TIME) + TIME_TO_SEC(JIG_FIXTURE) + TIME_TO_SEC(WAITING_CMM) + TIME_TO_SEC(UKUR_MANUAL) + TIME_TO_SEC(LT_IMPRAG) + TIME_TO_SEC(GANTI_THREEBOND) + TIME_TO_SEC(PERUBAHAN_PROSES) + TIME_TO_SEC(JOB_SET_UP) + TIME_TO_SEC(TRIAL_NON_MACH) + TIME_TO_SEC(OTHERS_PROSES)) AS totalpro, (TIME_TO_SEC(PERSIAPAN_PROD) + TIME_TO_SEC(LISTRIK_MATI) + TIME_TO_SEC(KURAS_WASHING) + TIME_TO_SEC(P5M) + TIME_TO_SEC(MP_SAKIT) + TIME_TO_SEC(OTHERS)) AS totaloth  FROM tb_dt_terplanning, tb_dt_auto, tb_dt_proses, tb_dt_material, tb_dt_mesin, tb_dt_others  WHERE tb_dt_terplanning.ID = ? AND tb_dt_auto.ID = ? AND tb_dt_mesin.ID = ? AND tb_dt_proses.ID = ? AND tb_dt_material.ID = ? AND tb_dt_others.ID = ?", [id, id, id, id, id, id], (err, reshour1) => {
                             var date = new Date(); 
@@ -252,9 +258,9 @@ io.on('connection', (socket) => {
                                     console.log('target done')
                                     global[`trgt-${line}-${namapart}-${id}`] = setInterval(() => {target(id)}, parseInt(result12[0].CYCLE_TIME) * 1000)
                                 }
-                                if (!global[`lt-${line}-${namapart}-${id}`]) {
-                                    global[`lt-${line}-${namapart}-${id}`] = setInterval(() => {lostTime(id)}, 1000)
-                                }
+                                // if (!global[`lt-${line}-${namapart}-${id}`]) {
+                                //     global[`lt-${line}-${namapart}-${id}`] = setInterval(() => {lostTime(id)}, 1000)
+                                // }
                             })
                         })
                     })
@@ -267,7 +273,7 @@ io.on('connection', (socket) => {
             conLocal.query("SELECT plan.id, sum(prod.TOTAL_PRODUKSI) AS totalprod, sum(prod.OK) AS ok, sum(prod.NG) AS ng, sum(TIME_TO_SEC(plan.`5R`) + TIME_TO_SEC(plan.MP_PENGGANTI) + TIME_TO_SEC(plan.CT_TIDAK_STANDART) + TIME_TO_SEC(plan.MP_DIALIHKAN) + TIME_TO_SEC(plan.DANDORY) + TIME_TO_SEC(plan.PREVENTIVE_MAINT) + TIME_TO_SEC(plan.PROD_PART_LAIN) + TIME_TO_SEC(plan.`PRODUKSI_2/3_JIG`) + TIME_TO_SEC(plan.`PRODUKSI_1_M/P`) + TIME_TO_SEC(plan.`PRODUKSI_2_M/C`) + TIME_TO_SEC(plan.OVERLAP_LINE_LAIN) + TIME_TO_SEC(plan.LAYOFF_MANPOWER) + TIME_TO_SEC(plan.LAYOFF_TOOL_KOSONG) + TIME_TO_SEC(plan.LAYOFF_KOMP_SPM) + TIME_TO_SEC(plan.LAYOFF_KOMP_CNC) + TIME_TO_SEC(plan.PACKAGING_KOSONG) + TIME_TO_SEC(plan.LAYOFF_STOCK_WAITING)) AS totalplan, sum(TIME_TO_SEC(auto.gagal_vacum) + TIME_TO_SEC(auto.gagal_ambil) + TIME_TO_SEC(auto.instocker) + TIME_TO_SEC(auto.outstocker) + TIME_TO_SEC(auto.feeder) + TIME_TO_SEC(auto.flipper) + TIME_TO_SEC(auto.robot)) AS totalauto, sum(TIME_TO_SEC(mach.MC_TROUBLE) + TIME_TO_SEC(mach.MC_ASSY_TROUBLE) + TIME_TO_SEC(mach.MC_SPM_DRILL) + TIME_TO_SEC(mach.LT_TROUBLE) + TIME_TO_SEC(mach.WASHING_TROUBLE) + TIME_TO_SEC(mach.ANGIN_DROP) + TIME_TO_SEC(mach.PENAMBAHAN_COOLANT) + TIME_TO_SEC(mach.WARMING_UP) + TIME_TO_SEC(mach.OTHERS_MC)) AS totalmesin, sum(TIME_TO_SEC(mat.stock_waiting) + TIME_TO_SEC(mat.PARTIAL) + TIME_TO_SEC(mat.sortir) + TIME_TO_SEC(mat.innerpart_kosong) + TIME_TO_SEC(mat.repair_part) + TIME_TO_SEC(mat.trimming_part) + TIME_TO_SEC(mat.sto) + TIME_TO_SEC(mat.others_material)) AS totalmat, sum(TIME_TO_SEC(pro.SETTING_PROGRAM) + TIME_TO_SEC(pro.GANTI_TOOL) + TIME_TO_SEC(pro.TRIAL_MACHINING) + TIME_TO_SEC(pro.Q_TIME) + TIME_TO_SEC(pro.JIG_FIXTURE) + TIME_TO_SEC(pro.WAITING_CMM) + TIME_TO_SEC(pro.UKUR_MANUAL) + TIME_TO_SEC(pro.LT_IMPRAG) + TIME_TO_SEC(pro.GANTI_THREEBOND) + TIME_TO_SEC(pro.PERUBAHAN_PROSES) + TIME_TO_SEC(pro.JOB_SET_UP) + TIME_TO_SEC(pro.TRIAL_NON_MACH) + TIME_TO_SEC(pro.OTHERS_PROSES)) AS totalpro, sum(TIME_TO_SEC(oth.PERSIAPAN_PROD) + TIME_TO_SEC(oth.LISTRIK_MATI) + TIME_TO_SEC(oth.KURAS_WASHING) + TIME_TO_SEC(oth.P5M) + TIME_TO_SEC(oth.MP_SAKIT) + TIME_TO_SEC(oth.OTHERS)) AS totaloth FROM tb_dt_terplanning AS plan join tb_dt_auto AS auto ON auto.id = plan.id join tb_dt_proses AS pro ON pro.id = auto.id join tb_dt_material AS mat ON mat.id = pro.id join tb_dt_mesin AS mach ON mach.id = mat.id join tb_dt_others AS oth ON oth.id = mach.id JOIN tb_produksi AS prod ON prod.id = oth.id WHERE plan.NAMA_PART = ? AND plan.LINE = ? AND plan.tanggal = CURDATE() AND plan.SHIFT = ?;", [namapart, line, shift], (err, rint) => {
                 io.emit(`update-resume-${id}`, shift, rint[0].totalprod, rint[0].ok, rint[0].ng, rint[0].totalplan, rint[0].totalauto, rint[0].totalmesin, rint[0].totalmat, rint[0].totalpro, rint[0].totaloth)
             })
-            conLocal.query("select * from tb_data_hourly where nama_part = ? and line = ? and shift = ? and tanggal = curdate()", [namapart, line, shift], (err, resl) => {
+            conLocal.query("select * from tb_data_hourly where nama_part = ? and line = ? and tanggal = curdate()", [namapart, line], (err, resl) => {
                 if (resl.length === 0) {
                     console.log('jam kosong')
                 } else {
@@ -325,7 +331,7 @@ io.on('connection', (socket) => {
                 console.log(second)
                 socket.emit('send-dt-value', result[0][namadt]);
             })
-            dtint = setInterval(function(){
+            global[`dtint-${parse.message}`] = setInterval(function(){
                 // var endTime = new Date();
                 // var endTime = (Date.parse(endTime)) / 1000;
                 // var m = new Date();
@@ -366,7 +372,7 @@ io.on('connection', (socket) => {
                 if (err) {throw err}
                 else {
                     if (resdone[0].pelaporsetuju == 1 && resdone[0].teknisisetuju == 1) {
-                        clearInterval(dtint)
+                        clearInterval(global[`dtint-${global[`tid-${idlap}`]}`])
                         clearInterval(check)
                         global[`tid-${idlap}`] = null
                         global[`dtcheck-${idlap}`] = null
@@ -374,7 +380,7 @@ io.on('connection', (socket) => {
                     } 
                 }
             })
-        }, 3000) 
+        }, 1000) 
     })
     socket.on('selesai-noticket-dt', async() => {
         dtclick = false;
@@ -382,7 +388,7 @@ io.on('connection', (socket) => {
     })
     socket.on('dt-selesai-auto', async(idlap) => {
         const body ={};
-        clearInterval(dtint);
+        clearInterval(global[`dtint-${global[`tid-${idlap}`]}`]);
         const response = await fetch('http://localhost:3030/selesai/'+global[`tid-${idlap}`]+'/operator/auto/WQ1n5prQcGCt', {
             method: 'post',
             body: JSON.stringify(body),
