@@ -39,7 +39,7 @@ function blong() {
 
 function seret() {
     undoTracker = 3
-    location.href = `http://10.14.20.2123000/${namapart}/${idprod}/${line}/locsheet/seret/sr/3` 
+    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/seret/sr/3` 
 }
 
 function dent() {
@@ -74,7 +74,7 @@ function rivet() {
 
 function bimetal() {
     undoTracker = 10 
-    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/bimetal/bm/10`
+    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/bimetal/bm/10`
 }
 
 function jointt() {
