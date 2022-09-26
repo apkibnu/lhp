@@ -258,12 +258,43 @@ button.actived {
 }
 
 #bagian-atas {
-  margin-top: -31%;
+  margin-top: -20%;
+  position: relative;
+}
+
+#bagian-atas-panjang {
+  margin-top: -28%;
+  position: relative;
+}
+
+#bagian-atas-outertube {
+  margin-top: -8%;
+  position: relative;
+}
+
+#bagian-atas-outertube2 {
+  margin-top: -50%;
+  position: relative;
+}
+
+#row-atas-panjang {
+  height: 30%;
   position: relative;
 }
 
 #button-atas {
-  margin-top: -23%;
+  margin-top: -25%;
+  position: relative;
+}
+
+#button-atas-panjang {
+  margin-top: -41%;
+  position: relative;
+}
+
+#button-outertube {
+  margin-top: -30%;
+  position: relative;
 }
 
 #bagian-bawah{
@@ -272,7 +303,11 @@ button.actived {
 }
 
 #row-bawah {
-  height: 170%;
+  height: 250%;
+}
+
+#row-bawah-panjang{
+  height: 235%;
 }
 
 #button-bawah {
@@ -298,16 +333,25 @@ button.actived {
   border: none;
 }
 
-#gambar-1 {
+#gambar-model-coverL {
   margin-top: 1%;
 }
 
+#gambar-rotate {
+  margin-top: 1%;
+  transform: rotate(90deg);
+}
+
 #gambar-2 {
-  margin-top: -1.9%;
+  margin-top: 0%;
 }
 
 form {
   background-color: transparent;
+}
+
+#tengah {
+  height: 20%;
 }
 
 #parts-all h1 {

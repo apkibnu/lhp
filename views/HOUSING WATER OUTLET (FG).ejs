@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="images/logo-astra-otoparts-600x600-modified.png" <!-- MATERIAL ICONS -- />
+  <!-- STYLESHEET-->
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/CSS/style.css" />
+
+  <script src="/jquery/jquery.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <link href="/select2/select2.min.css" rel="stylesheet" />
+  <script src="/select2/select2.min.js"></script>
+  <script src="/socket.io-client-4.5.1/dist/socket.io.min.js"></script><script type = "text/javascript" >
+      function preventBack(){window.history.forward();}
+       setTimeout("preventBack()", 0);
+       window.onunload=function(){null};
+     </script>
+  <title><%= namapart %></title>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-sm navbar-dark py-0 m-0" style="background-color: midnightblue">
+      <div class="container-fluid">
+        <div class="round-container">
+          <a href="#" class="back-round">
+            <span class="material-symbols-sharp"> arrow_back </span>
+          </a>
+        </div>
+        <div class="container" style="width: max-content; border: transparent; background-color: white; border-radius: 50px">
+          <a class="navbar-brand" href="#">
+            <img src="/images/nusametal1.png" id="brand-nusametal" height="53" />
+          </a>
+        </div>
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <div class="col-sm-4 col-lg-6 col-xl-7 ps-5">
+            <div class="row d-flex flex-column float-end gs-2">
+              <div class="col-12 float-end">
+                <div id="clock-container" class="float-end"></div>
+              </div>
+              <div class="col-12 float-end">
+                <div id="date-container" class="float-end"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-11 col-lg-7 col-xl-7 ps-4">
+            <div class="row d-flex flex-row g-1" style="margin-top: -2px !important">
+              <div class="col-sm-3 col-lg-3 col-xl-2 m-1 d-grid">
+                <div class="shift-indicator">
+                  <h5>Shift :</h5>
+                  <a>
+                    <span class="material-symbols-sharp" id="shift-1"> looks_one </span>
+                  </a>
+                  <a>
+                    <span class="material-symbols-sharp" id="shift-2"> looks_two </span>
+                  </a>
+                  <a>
+                    <span class="material-symbols-sharp" id="shift-3"> looks_3 </span>
+                  </a>
+                </div>
+              </div>
+              <div class="col-sm-5 col-lg-6 col-xl-6 m-1 ms-3 d-grid">
+                <div class="nama-part px-1">
+                  <h4><%= nama1 %> </h4>
+                  <h5><%= nrp1 %></h5>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+      <div class="col-12 d-grid" id="parts-all">
+        <div class="row">
+
+          <div class="col-4 d-grid mt-5">
+            <div class="card p-3" style="border: none;">
+              <img src="/images/a. Gbr Loc Sheet/Housing Water Outlet b.png" class="img-fluid ms-5 me-5 mt-5" alt="Responsive image" id="gambar-2"/>
+              <div class="col-12" id="bagian-atas-panjang">
+                <div class="row" id="row-atas-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="A">
+                          <h1>A</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="B">
+                          <h1>B</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" id="bagian-bawah">
+                <div class="row" id="row-bawah-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="C">
+                          <h1>C</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="D">
+                          <h1>D</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 d-grid mt-5">
+            <div class="card p-3" style="border: none;">
+              <img src="/images/a. Gbr Loc Sheet/Housing Water Outlet c.png" class="img-fluid ms-5 me-5 mt-5" alt="Responsive image" id="gambar-2"/>
+              <div class="col-12" id="bagian-atas-panjang">
+                <div class="row" id="row-atas-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="E">
+                          <h1>E</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="F">
+                          <h1>F</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" id="bagian-bawah">
+                <div class="row" id="row-bawah-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="G">
+                          <h1>G</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="H">
+                          <h1>H</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 d-grid mt-5">
+            <div class="card p-3" style="border: none;">
+              <img src="/images/a. Gbr Loc Sheet/Housing Water Outlet a.png" class="img-fluid ms-5 me-5 mt-5" alt="Responsive image" id="gambar-2"/>
+              <div class="col-12" id="bagian-atas-panjang">
+                <div class="row" id="row-atas-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="I">
+                          <h1>I</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="J">
+                          <h1>J</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" id="bagian-bawah">
+                <div class="row" id="row-bawah-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="K">
+                          <h1>K</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="L">
+                          <h1>L</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-11" id="tengah"></div>
+          <div class="col-4 d-grid">
+            <div class="card p-3" style="border: none;">
+              <img src="/images/a. Gbr Loc Sheet/Housing Water Outlet d.png" class="img-fluid ms-5 me-5 mt-5" alt="Responsive image" id="gambar-2"/>
+              <div class="col-12" id="bagian-atas-panjang">
+                <div class="row" id="row-atas-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="M">
+                          <h1>M</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="N">
+                          <h1>N</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" id="bagian-bawah">
+                <div class="row" id="row-bawah-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="O">
+                          <h1>O</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="P">
+                          <h1>P</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 d-grid">
+            <div class="card p-3" style="border: none;">
+              <img src="/images/a. Gbr Loc Sheet/Housing Water Outlet e.png" class="img-fluid ms-5 me-5 mt-5" alt="Responsive image" id="gambar-2"/>
+              <div class="col-12" id="bagian-atas-panjang">
+                <div class="row" id="row-atas-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="Q">
+                          <h1>Q</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="R">
+                          <h1>R</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" id="bagian-bawah">
+                <div class="row" id="row-bawah-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="S">
+                          <h1>S</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="T">
+                          <h1>T</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 d-grid">
+            <div class="card p-3" style="border: none;">
+              <img src="/images/a. Gbr Loc Sheet/Housing Water Outlet f.png" class="img-fluid ms-5 me-5 mt-5" alt="Responsive image" id="gambar-2"/>
+              <div class="col-12" id="bagian-atas-panjang">
+                <div class="row" id="row-atas-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="U">
+                          <h1>U</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-atas-panjang">
+                    <form class="d-grid" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-content">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="V">
+                          <h1>V</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" id="bagian-bawah">
+                <div class="row" id="row-bawah-panjang">
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="W">
+                          <h1>W</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-6 px-0 d-grid" id="button-bawah">
+                    <form class="d-grid p-0" method="post" action="/<%= namapart %>/<%= idprod %>/<%= line %>/locsheet/<%= reject %> /<%= kode %>/<%= undo %>">
+                      <div class="card border-danger border-3 d-grid" id="card-contentbawah">
+                        <button type="submit" class="btn d-grid" id="btn-bagianparts" name="kode" value="X">
+                          <h1>X</h1>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </main>
+
+    <!--JS SCRIPT-->
+    <script src="/js/Time.js"></script>
+    <script src="/js/Tanggal.js"></script>
+</body>
+</html>
