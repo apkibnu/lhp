@@ -284,6 +284,9 @@ io.on('connection', (socket) => {
             })
         }, 1000)
     })
+    socket.on('test', () => {
+        console.log('test')
+    })
     socket.on('disconnect', () => {
         clearInterval(interval)
         clearInterval(resume)
@@ -344,6 +347,22 @@ io.on('connection', (socket) => {
                 //     ("0" + m.getSeconds()).slice(-2) + ".000Z";
                 // var now = (Date.parse(dateString) / 1000);
                 // timeLeft = now - endTime;
+                conLocal.query("select * from tb_produksi where id = ? and nama_part = ? and line = ? and tanggal = curdate()", [idlap, nama_part, lane], async (err, result1) => {
+                    updateshift()
+                    if (shift != result1[0].SHIFT && global[`dtint-${global[`tid-${idlap}`]}`]) {
+                        const body = {};
+                        const response = await fetch('http://localhost:3030/selesai/'+global[`tid-${idlap}`]+'/operator/KeRuFIfu6i8a', {
+                            method: 'post',
+                            body: JSON.stringify(body),
+                            headers: {'Content-Type': 'application/json'}
+                        }).then(res => res.json())
+                        .then(json => console.log(json))
+                        clearInterval(global[`dtint-${global[`tid-${idlap}`]}`])
+                        global[`tid-${idlap}`] = null
+                        global[`dtcheck-${idlap}`] = null
+                        global[`dtclick-${idlap}`] = false
+                    }
+                })
                 conLocal.query("update tb_dt_"+jenisdt+" set `"+namadt+"` = sec_to_time(time_to_sec(`"+namadt+"`)+1) where ID = ?", [idlap], (err, result) => {
                     if (err) {console.log(err)}
                 })
@@ -367,20 +386,24 @@ io.on('connection', (socket) => {
         }).then(res => res.json())
         .then(json => console.log(json))
         .catch(err => console.log(err))
-        let check = setInterval(function(){
-            conTicket.query("select * from ticketselesai where ticketid = ?", [global[`tid-${idlap}`]], (err, resdone) => {
-                if (err) {throw err}
-                else {
-                    if (resdone[0].pelaporsetuju == 1 && resdone[0].teknisisetuju == 1) {
-                        clearInterval(global[`dtint-${global[`tid-${idlap}`]}`])
-                        clearInterval(check)
-                        global[`tid-${idlap}`] = null
-                        global[`dtcheck-${idlap}`] = null
-                        global[`dtclick-${idlap}`] = false
-                    } 
-                }
-            })
-        }, 1000) 
+        clearInterval(global[`dtint-${global[`tid-${idlap}`]}`])
+        global[`tid-${idlap}`] = null
+        global[`dtcheck-${idlap}`] = null
+        global[`dtclick-${idlap}`] = false
+        // let check = setInterval(function(){
+        //     conTicket.query("select * from ticketselesai where ticketid = ?", [global[`tid-${idlap}`]], (err, resdone) => {
+        //         if (err) {throw err}
+        //         else {
+        //             if (resdone[0].pelaporsetuju == 1 && resdone[0].teknisisetuju == 1) {
+        //                 clearInterval(global[`dtint-${global[`tid-${idlap}`]}`])
+        //                 clearInterval(check)
+        //                 global[`tid-${idlap}`] = null
+        //                 global[`dtcheck-${idlap}`] = null
+        //                 global[`dtclick-${idlap}`] = false
+        //             } 
+        //         }
+        //     })
+        // }, 1000) 
     })
     socket.on('selesai-noticket-dt', async() => {
         dtclick = false;
@@ -403,9 +426,9 @@ io.on('connection', (socket) => {
     socket.on('search-nrp', (nrp, id) => {
         conLogin.query("select nama from karyawan where nrp = ?", [nrp], (err, res1) => {
             if(res1.length == 0) {
-                io.emit('nama', '', id);
+                socket.emit('nama', '', id);
             } else {
-                io.emit('nama', res1[0].nama, id);
+                socket.emit('nama', res1[0].nama, id);
             }
         })
     })
