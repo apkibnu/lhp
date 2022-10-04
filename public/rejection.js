@@ -29,137 +29,137 @@ socket.on(`noclick-${idprod}`, (status) => {
 
 function dimensi() {
     undoTracker = 1
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/dimensi/dm/1`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/dimensi/dm/1`
 }
 
 function blong() {
     undoTracker = 2
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/blong/bl/2`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/blong/bl/2`
 }
 
 function seret() {
     undoTracker = 3
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/seret/sr/3` 
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/seret/sr/3` 
 }
 
 function dent() {
     undoTracker = 4
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/dent/dn/4`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/dent/dn/4`
 }
 
 function uncutting() {
     undoTracker = 5
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/uncutting/uc/5`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/uncutting/uc/5`
 }
 
 function step() {
     undoTracker = 6 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/step/st/6`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/step/st/6`
 }
 
 function kasar() {
     undoTracker = 7 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/kasar/ks/7`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/kasar/ks/7`
 }
 
 function ngassy() {
     undoTracker = 8 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/ng_assy/na/8`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/ng_assy/na/8`
 }
 
 function rivet() {
     undoTracker = 9 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/rivet/rv/9`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/rivet/rv/9`
 }
 
 function bimetal() {
     undoTracker = 10 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/bimetal/bm/10`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/bimetal/bm/10`
 }
 
 function jointt() {
     undoTracker = 11 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/joint_tube/jt/11`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/joint_tube/jt/11`
 }
 
 function plate() {
     undoTracker = 12 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/plate/pl/12`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/plate/pl/12`
 }
 
 function nojig() {
     undoTracker = 13 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/no_jig/nj/13`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/no_jig/nj/13`
 }
 
 function othersp() {
     undoTracker = 14 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/others_p/op/14`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/others_p/op/14`
 }
 
 function keropos() {
     undoTracker = 15 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/keropos/kr/15` 
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/keropos/kr/15` 
 }
 
 function bocor() {
     undoTracker = 16 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/bocor/bc/16`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/bocor/bc/16`
 }
 
 function flowline() {
     undoTracker = 17 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/flowline/fl/17`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/flowline/fl/17`
 }
 
 function retak() {
     undoTracker = 18 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/retak/rt/18`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/retak/rt/18`
 }
 
 function gompal() {
     undoTracker = 19 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/gompal/gp/19`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/gompal/gp/19`
 }
 
 function overp() {
     undoTracker = 20 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/over_proses/ov/20`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/over_proses/ov/20`
 }
 
 function kurangp() {
     undoTracker = 21 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/kurang_proses/kp/21` 
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/kurang_proses/kp/21` 
 }
 
 function jamur() {
     undoTracker = 22 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/jamur/jm/22`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/jamur/jm/22`
 }
 
 function undercut() {
     undoTracker = 23
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/undercut/un/23` 
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/undercut/un/23` 
 }
 
 function dekok() {
     undoTracker = 24
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/dekok/dk/24`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/dekok/dk/24`
 }
 
 function trial() {
     undoTracker = 25
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/trial/tr/25` 
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/trial/tr/25` 
 }
 
 function uncutm() {
     undoTracker = 26
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/uncut_material/um/26`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/uncut_material/um/26`
 }
 
 function othersm() {
     undoTracker = 27
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/others_material/om/27`
+    location.href = `http://localhost:3000/${namapart}/${idprod}/${line}/locsheet/others_material/om/27`
 }
 
 function undo() {

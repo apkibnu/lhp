@@ -5,6 +5,7 @@ var minutetotal = Math.floor((secondauto + secondmach + secondmat + secondothers
 document.getElementById('totaldt').innerHTML = minutetotal + " mnt";
 var id;
 var dtclick = false;
+var $layoff = $('button.btn-secondary');
 
 window.onload = function(){
     socket.emit('interval', idprod, namapart, line)
@@ -32,6 +33,11 @@ socket.on(`noclick-${idprod}`, dtcheck => {
     document.getElementById(dtcheck).click()
 })
 
+$layoff.click(() => {
+    $inputs.not(this).prop('disabled', true);
+    layoff();
+})
+
 $inputs.click(function () {
     $inputs.not(this).prop('disabled', true);
     id = this.id;
@@ -55,8 +61,6 @@ $inputs.click(function () {
         dtticket('Setting Program', 'setting_program', 'pro-set_program', 'proses', secondpro)
     } else if (id == 'proses-ganti_tool') {
         dtticket('Ganti Tool', 'ganti_tool', 'pro-ganti_tool', 'proses', secondpro)
-    } else if (id == 'proses-set_program') {
-        dtticket('Setting Program', 'setting_program', 'pro-set_program', 'proses', secondpro)
     } else if (id == 'proses-trial_non_machining') {
         dtticket('Trial Non Machining', 'trial_non_mach', 'pro-trial_non_machining', 'proses', secondpro)
     } else if (id == 'proses-trial_machining') {
@@ -145,12 +149,14 @@ $inputs.click(function () {
         dtticket('Overlap Line Lain', 'overlap_line_lain', 'planning-overlap_line_lain', 'terplanning', secondplan)
     } else if (id == 'terplanning-layoff_stock_waiting') {
         dtticket('Layoff Stock Waiting', 'layoff_stock_waiting', 'planning-layoff_stock_waiting', 'terplanning', secondplan)
+    } else if (id == 'terplanning-layoff_mp') {
+        dtticket('Layoff MP', 'layoff_stock_waiting', 'planning-layoff_mp', 'terplanning', secondplan)
     } else if (id == 'terplanning-layoff_tool_kosong') {
         dtticket('Layoff Tool Kosong', 'layoff_tool_kosong', 'planning-layoff_tool_kosong', 'terplanning', secondplan)
     } else if (id == 'terplanning-layoff_komp_spm') {
         dtticket('Layoff Komp. SPM', 'layoff_komp_spm', 'planning-layoff_komp_spm', 'terplanning', secondplan)
     } else if (id == 'terplanning-layoff_komp_cnc') {
-        dtticket('Layoff Komp. CNC', 'layoff_komp_cmc', 'terplanning-layoff_komp_cnc', 'terplanning', secondplan)
+        dtticket('Layoff Komp. CNC', 'layoff_komp_cnc', 'terplanning-layoff_komp_cnc', 'terplanning', secondplan)
     } else if (id == 'terplanning-packaging_kosong') {
         dtticket('Packaging Kosong', 'packaging_kosong', 'planning-packaging_kosong', 'terplanning', secondplan)
     }
@@ -283,22 +289,44 @@ function dtticket(api, mysql, idsec, key, timer) {
         socket.on('send-dt-value', (res) => {
             second1 = res;
             minute = Math.floor(second1/60);
-            console.log(second1);
         })
         t = setInterval(timerdt, 1000);
         dtclick = true
     } 
     else {
-        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'))
-        myModal.show()
+        $('#exampleModal').modal('show');
         $('#modal-ya').click(() => {
             socket.emit('selesai-dt', idprod)
             clearInterval(t);
             $inputs.prop('disabled', false);
             dtclick = false;
-            myModal.hide()
+            $('#exampleModal').modal('hide');
         })
+        $('#modal-no').on('click', () => {
+            $('#exampleModal').modal('hide');
+        });
     } 
+}
+
+const layoff = () => {
+    if (dtclick == false) {
+        socket.emit('layoff', namapart, line)
+        dtclick = true
+    } 
+    else {
+        // var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+        $('#exampleModal').modal('show');
+        // myModal.show()
+        $('#modal-ya').click(() => {
+            socket.emit('selesaiLayoff', line, namapart)
+            $inputs.prop('disabled', false);
+            dtclick = false;
+            $('#exampleModal').modal('hide');
+        })
+        $('#modal-no').on('click', () => {
+            $('#exampleModal').modal('hide');
+        });
+    }
 }
 
 function dtnoticket(api, mysql, idsec, key) {
@@ -328,15 +356,17 @@ function dtnoticket(api, mysql, idsec, key) {
         dtclick = true
     } 
     else {
-        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'))
-        myModal.show()
+        $('#exampleModal').modal('show');
         $('#modal-ya').click(() => {
             socket.emit('selesai-noticket-dt')
             clearInterval(t);
             $inputs.prop('disabled', false);
             dtclick = false;
-            myModal.hide()
+            $('#exampleModal').modal('hide');
         })
+        $('#modal-no').on('click', () => {
+            $('#exampleModal').modal('hide');
+        });
     } 
 }
 // ganti id plan-timer di downtime.ejs

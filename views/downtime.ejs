@@ -1157,11 +1157,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-10 px-1 d-none d-xl-block" style="visibility: hidden">
+            <div class="col-sm-3 col-xl-2 p-1">
               <div class="card border-dark" id="card-rejection">
-                <button class="btn btn-danger">NG ASSY</button>
+                <button class="btn btn-secondary" id="layoff">LAYOFF PRODUKSI</button>
                 <div class="card-content mx-auto">
-                  <h5>0 pcs</h5>
+                  <h5 style="visibility: hidden">asdasdadasd</h5>
                 </div>
               </div>
             </div>
@@ -1228,8 +1228,7 @@
             </div>
           </div>
         </div>
-        <button type="button" id="ppp">Click Me!</button>
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -1240,8 +1239,25 @@
                 Apakah Anda Yakin Downtime Sudah Selesai?
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-no">TIDAK</button>
+                <button type="button" class="btn btn-secondary" id="modal-no" data-bs-dismiss="modal">TIDAK</button>
                 <button type="button" class="btn btn-success" id="modal-ya">YA</button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Tiket</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Apakah Anda Yakin Downtime Sudah Selesai?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-warning data-dismiss="modal" id="modal-no">Close</button>
+                <button type="button" class="btn btn-primary" id="modal-ya">Save changes</button>
               </div>
             </div>
           </div>
