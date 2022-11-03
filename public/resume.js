@@ -9,9 +9,9 @@ socket.on(`update-total-${idprod}`, (total) => {
     socket.emit('update-ng', ng, ok, idprod);
 })
 
-window.onload = function(){
-    socket.emit('interval', idprod, namapart, line)
-}
+
+socket.emit('interval', idprod, namapart, line)
+
 
 socket.on(`update-resume-${idprod}`, (shift, prod, ok, ng, totalplan, totalauto, totalmesin, totalmat, totalpro, totaloth) => {
     if (shift === 1) {

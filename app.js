@@ -19,12 +19,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine','ejs');
 // access file static
 app.use(express.static('public'));
-process.env.TZ = "Asia/Bangkok";
 
 // listening to emit
 io.on('connection', (socket) => {
     socketInterval.interval(socket)
-    socketInterval.disconnect(socket)
     socketDowntime.updateDT(socket)
     socketDowntime.selesaiDT(socket)
     socketDowntime.selesaiDTAuto(socket)
@@ -36,6 +34,7 @@ io.on('connection', (socket) => {
     socketPreparation.cariLine(socket)
     socketPreparation.cariNRP(socket)
     socketPreparation.cariPart(socket)
+    socketInterval.disconnect(socket)
 })
 
 app.use(route)

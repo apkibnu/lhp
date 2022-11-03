@@ -7,9 +7,9 @@ var id;
 var dtclick = false;
 var $layoff = $('button.btn-secondary');
 
-window.onload = function(){
+
     socket.emit('interval', idprod, namapart, line)
-}
+
 
 socket.on('disconnect')
 

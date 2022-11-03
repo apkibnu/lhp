@@ -26,6 +26,7 @@ exports.interval = (socket) => {
         conTicket.query("select status from tb_line where nama_line = ? and nama_part = ?", [line, namapart], (err, rescheckdt) => {
             if (rescheckdt[0].status == 'layoff') {
                 socket.emit(`noclick-${id}`, 'layoff')
+                return
             } else if (rescheckdt[0].status != 'normal') {
                 conTicket.query("select ticketid, idsql, wakturesponstart from ticket JOIN problem ON ticket.problem = problem.namaproblem where tanggal = curdate() and nama_part = ? and lane = ? and statusticket = 'menunggu respon'", [namapart, line], (err, resticket) => {
                     socket.emit(`noclick-${id}`, resticket[0].idsql)
@@ -43,10 +44,9 @@ exports.interval = (socket) => {
                         shift = updateShift()
                         conLocal.query("select * from tb_produksi where id = ? and tanggal = curdate()", [id], (err, result1) => {
                             var date = new Date()
-                            console.log(now)
                             var now = (date.getHours() * 60) + date.getMinutes()
-                            if (shift != result1[0].SHIFT) {
-                                clearInterval(global[`trgt-${line}-${namapart}`])
+                            if (updateShift() != result1[0].SHIFT) {
+                                clearInterval(global[`trgt-${line}-${namapart}-${id}`])
                                 global[`trgt-${line}-${namapart}-${id}`] = null
                                 console.log('int stop')
                             } else if (((2 * 60) <= now && now < (2 * 60) + 10) || ((4 * 60) + 30 <= now && now < (5 * 60))) {
@@ -104,14 +104,16 @@ exports.interval = (socket) => {
                             let qua = (reshour[0].OK/reshour[0].TOTAL_PRODUKSI)
                             let oee = ava * per * qua
                             conLocal.query('update tb_produksi set ava = ?, per = ?, qua = ?, oee = ? where id = ?', [ava.toFixed(3), per.toFixed(3), qua.toFixed(3), oee.toFixed(3), id], (err, resoee) => {})
-                            conLocal.query("select * from tb_data_hourly where tanggal = curdate() and shift = ? and jam = ? and nama_part = ? and line = ? and idlap = ?", [shift + "", now, namapart, line, id], (err, resc) => {
+                            conLocal.query("select * from tb_data_hourly where tanggal = curdate() and shift = ? and jam = ? and nama_part = ? and line = ? and idlap = ?", [updateShift(), now, namapart, line, id], (err, resc) => {
                                 if (err) {throw err}
-                                else if (shift != reshour[0].SHIFT) {
+                                else if (updateShift() != reshour[0].SHIFT) {
                                     clearInterval(interval)
+                                    console.log(updateShift(), reshour[0].SHIFT)
+                                    console.log('test stop int')
                                 }
                                 else if (resc.length === 0) {
                                     socket.emit(`update-total-${id}`, result12[0].TOTAL_PRODUKSI, result12[0].TARGET)
-                                    conLocal.query("select sum(total_produksi) as total, sum(ok) as ok, sum(ng) as ng, sum(time_to_sec(dt_auto)) as totalauto,sum(time_to_sec(dt_material)) as totalmat, sum(time_to_sec(dt_mesin)) as totalmesin, sum(time_to_sec(dt_others)) as totalothers, sum(time_to_sec(dt_proses)) as totalproses, sum(time_to_sec(dt_terplanning)) as totalplan, sum(target) as target from tb_data_hourly where shift = ? and nama_part = ? and line = ? and tanggal = curdate() and idlap = ?", [shift, namapart, line, id], (err, resch) => {
+                                    conLocal.query("select sum(total_produksi) as total, sum(ok) as ok, sum(ng) as ng, sum(time_to_sec(dt_auto)) as totalauto,sum(time_to_sec(dt_material)) as totalmat, sum(time_to_sec(dt_mesin)) as totalmesin, sum(time_to_sec(dt_others)) as totalothers, sum(time_to_sec(dt_proses)) as totalproses, sum(time_to_sec(dt_terplanning)) as totalplan, sum(target) as target from tb_data_hourly where shift = ? and nama_part = ? and line = ? and tanggal = curdate() and idlap = ?", [updateShift(), namapart, line, id], (err, resch) => {
                                         if (err) {throw err}
                                         lasttotal = resch[0].total
                                         lastok = resch[0].ok
@@ -119,19 +121,19 @@ exports.interval = (socket) => {
                                         lasttotaln = reshour[0].TOTAL_PRODUKSI
                                         lastokn = reshour[0].OK
                                         lastngn = reshour[0].NG
-                                        conLocal.query("insert into tb_data_hourly (TANGGAL, JAM, SHIFT, LINE, IDLAP, NAMA_PART, OK, NG, TOTAL_PRODUKSI, TARGET, DT_AUTO, DT_MATERIAL, DT_MESIN, DT_OTHERS, DT_PROSES, DT_TERPLANNING) values (curdate(), ?, ?, ?, ?, ?, ?, ?, ?, ?, sec_to_time(?), sec_to_time(?), sec_to_time(?), sec_to_time(?), sec_to_time(?), sec_to_time(?))", [now, shift, line, id, namapart, Math.max(lastokn - lastok, 0), Math.max(lastngn - lastng, 0), Math.max(lasttotaln - lasttotal, 0), Math.max(reshour[0].TARGET - resch[0].target, 0), Math.max(reshour1[0].totalauto - resch[0].totalauto, 0), Math.max(reshour1[0].totalmat - resch[0].totalmat, 0), Math.max(reshour1[0].totalmesin - resch[0].totalmesin, 0), Math.max(reshour1[0].totaloth - resch[0].totalothers, 0), Math.max(reshour1[0].totalpro - resch[0].totalproses, 0), Math.max(reshour1[0].totalplan - resch[0].totalplan, 0)], (err, res13) => {
+                                        conLocal.query("insert into tb_data_hourly (TANGGAL, JAM, SHIFT, LINE, IDLAP, NAMA_PART, OK, NG, TOTAL_PRODUKSI, TARGET, DT_AUTO, DT_MATERIAL, DT_MESIN, DT_OTHERS, DT_PROSES, DT_TERPLANNING) values (curdate(), ?, ?, ?, ?, ?, ?, ?, ?, ?, sec_to_time(?), sec_to_time(?), sec_to_time(?), sec_to_time(?), sec_to_time(?), sec_to_time(?))", [now, updateShift(), line, id, namapart, Math.max(lastokn - lastok, 0), Math.max(lastngn - lastng, 0), Math.max(lasttotaln - lasttotal, 0), Math.max(reshour[0].TARGET - resch[0].target, 0), Math.max(reshour1[0].totalauto - resch[0].totalauto, 0), Math.max(reshour1[0].totalmat - resch[0].totalmat, 0), Math.max(reshour1[0].totalmesin - resch[0].totalmesin, 0), Math.max(reshour1[0].totaloth - resch[0].totalothers, 0), Math.max(reshour1[0].totalpro - resch[0].totalproses, 0), Math.max(reshour1[0].totalplan - resch[0].totalplan, 0)], (err, res13) => {
                                             if (err) {throw err}
                                         })
                                         
                                     })
                                 } else {
                                     socket.emit(`update-total-${id}`, result12[0].TOTAL_PRODUKSI, result12[0].TARGET)
-                                    conLocal.query("SELECT SUM(total_produksi) as total, SUM(ok) as ok, SUM(ng) as ng, sum(time_to_sec(dt_auto)) as totalauto,sum(time_to_sec(dt_material)) as totalmat, sum(time_to_sec(dt_mesin)) as totalmesin, sum(time_to_sec(dt_others)) as totalothers, sum(time_to_sec(dt_proses)) as totalproses, sum(time_to_sec(dt_terplanning)) as totalplan, sum(target) as target FROM tb_data_hourly WHERE shift = ? and nama_part = ? and line = ? AND tanggal = CURDATE() AND idlap = ? and id != (SELECT max(id) FROM tb_data_hourly WHERE shift = ? and nama_part = ? and line = ? and tanggal = CURDATE() and idlap = ?)", [shift, namapart, line, id, shift, namapart, line, id], (err, resch) => {
+                                    conLocal.query("SELECT SUM(total_produksi) as total, SUM(ok) as ok, SUM(ng) as ng, sum(time_to_sec(dt_auto)) as totalauto,sum(time_to_sec(dt_material)) as totalmat, sum(time_to_sec(dt_mesin)) as totalmesin, sum(time_to_sec(dt_others)) as totalothers, sum(time_to_sec(dt_proses)) as totalproses, sum(time_to_sec(dt_terplanning)) as totalplan, sum(target) as target FROM tb_data_hourly WHERE shift = ? and nama_part = ? and line = ? AND tanggal = CURDATE() AND idlap = ? and id != (SELECT max(id) FROM tb_data_hourly WHERE shift = ? and nama_part = ? and line = ? and tanggal = CURDATE() and idlap = ?)", [shift, namapart, line, id, updateShift(), namapart, line, id], (err, resch) => {
                                         if (err) {throw err}
                                         lasttotal = resch[0].total
                                         lastok = resch[0].ok
                                         lastng = resch[0].ng
-                                        conLocal.query("update tb_data_hourly set total_produksi = ?, ok = ?, ng = ?, target = ?, dt_auto = sec_to_time(?), dt_material = sec_to_time(?), dt_mesin = sec_to_time(?), dt_others = sec_to_time(?), dt_proses = sec_to_time(?), dt_terplanning = sec_to_time(?) where tanggal = curdate() and shift = ? and jam = ? and nama_part = ? and line = ? and idlap = ?", [Math.max(reshour[0].TOTAL_PRODUKSI - lasttotal, 0), Math.max(reshour[0].OK - lastok, 0), Math.max(reshour[0].NG - lastng, 0), Math.max(reshour[0].TARGET - resch[0].target, 0), Math.max(reshour1[0].totalauto - resch[0].totalauto, 0), Math.max(reshour1[0].totalmat - resch[0].totalmat, 0), Math.max(reshour1[0].totalmesin - resch[0].totalmesin, 0), Math.max(reshour1[0].totaloth - resch[0].totalothers, 0), Math.max(reshour1[0].totalpro - resch[0].totalproses, 0), Math.max(reshour1[0].totalplan - resch[0].totalplan, 0), shift, now, namapart, line, id], (err, resin) => {
+                                        conLocal.query("update tb_data_hourly set total_produksi = ?, ok = ?, ng = ?, target = ?, dt_auto = sec_to_time(?), dt_material = sec_to_time(?), dt_mesin = sec_to_time(?), dt_others = sec_to_time(?), dt_proses = sec_to_time(?), dt_terplanning = sec_to_time(?) where tanggal = curdate() and shift = ? and jam = ? and nama_part = ? and line = ? and idlap = ?", [Math.max(reshour[0].TOTAL_PRODUKSI - lasttotal, 0), Math.max(reshour[0].OK - lastok, 0), Math.max(reshour[0].NG - lastng, 0), Math.max(reshour[0].TARGET - resch[0].target, 0), Math.max(reshour1[0].totalauto - resch[0].totalauto, 0), Math.max(reshour1[0].totalmat - resch[0].totalmat, 0), Math.max(reshour1[0].totalmesin - resch[0].totalmesin, 0), Math.max(reshour1[0].totaloth - resch[0].totalothers, 0), Math.max(reshour1[0].totalpro - resch[0].totalproses, 0), Math.max(reshour1[0].totalplan - resch[0].totalplan, 0), updateShift(), now, namapart, line, id], (err, resin) => {
                                             if (err) {throw err}
                                         })
                                     })
@@ -148,13 +150,19 @@ exports.interval = (socket) => {
                     })
                 }
             })
-        }, 1000)
+        }, 2000)
 
         resume = setInterval(function(){
-            shift = updateShift
-            conLocal.query('SELECT plan.id, sum(prod.TOTAL_PRODUKSI) AS totalprod, sum(prod.OK) AS ok, sum(prod.NG) AS ng, sum(TIME_TO_SEC(plan.`5R`) + TIME_TO_SEC(plan.MP_PENGGANTI) + TIME_TO_SEC(plan.CT_TIDAK_STANDART) + TIME_TO_SEC(plan.MP_DIALIHKAN) + TIME_TO_SEC(plan.DANDORY) + TIME_TO_SEC(plan.PREVENTIVE_MAINT) + TIME_TO_SEC(plan.PROD_PART_LAIN) + TIME_TO_SEC(plan.`PRODUKSI_2/3_JIG`) + TIME_TO_SEC(plan.`PRODUKSI_1_M/P`) + TIME_TO_SEC(plan.`PRODUKSI_2_M/C`) + TIME_TO_SEC(plan.OVERLAP_LINE_LAIN) + TIME_TO_SEC(plan.LAYOFF_MANPOWER) + TIME_TO_SEC(plan.LAYOFF_TOOL_KOSONG) + TIME_TO_SEC(plan.LAYOFF_KOMP_SPM) + TIME_TO_SEC(plan.LAYOFF_KOMP_CNC) + TIME_TO_SEC(plan.PACKAGING_KOSONG) + TIME_TO_SEC(plan.LAYOFF_STOCK_WAITING)) AS totalplan, sum(TIME_TO_SEC(auto.gagal_vacum) + TIME_TO_SEC(auto.gagal_ambil) + TIME_TO_SEC(auto.instocker) + TIME_TO_SEC(auto.outstocker) + TIME_TO_SEC(auto.feeder) + TIME_TO_SEC(auto.flipper) + TIME_TO_SEC(auto.robot)) AS totalauto, sum(TIME_TO_SEC(mach.MC_TROUBLE) + TIME_TO_SEC(mach.MC_ASSY_TROUBLE) + TIME_TO_SEC(mach.MC_SPM_DRILL) + TIME_TO_SEC(mach.LT_TROUBLE) + TIME_TO_SEC(mach.WASHING_TROUBLE) + TIME_TO_SEC(mach.ANGIN_DROP) + TIME_TO_SEC(mach.PENAMBAHAN_COOLANT) + TIME_TO_SEC(mach.WARMING_UP) + TIME_TO_SEC(mach.OTHERS_MC)) AS totalmesin, sum(TIME_TO_SEC(mat.stock_waiting) + TIME_TO_SEC(mat.PARTIAL) + TIME_TO_SEC(mat.sortir) + TIME_TO_SEC(mat.innerpart_kosong) + TIME_TO_SEC(mat.repair_part) + TIME_TO_SEC(mat.trimming_part) + TIME_TO_SEC(mat.sto) + TIME_TO_SEC(mat.others_material)) AS totalmat, sum(TIME_TO_SEC(pro.SETTING_PROGRAM) + TIME_TO_SEC(pro.GANTI_TOOL) + TIME_TO_SEC(pro.TRIAL_MACHINING) + TIME_TO_SEC(pro.Q_TIME) + TIME_TO_SEC(pro.JIG_FIXTURE) + TIME_TO_SEC(pro.WAITING_CMM) + TIME_TO_SEC(pro.UKUR_MANUAL) + TIME_TO_SEC(pro.LT_IMPRAG) + TIME_TO_SEC(pro.GANTI_THREEBOND) + TIME_TO_SEC(pro.PERUBAHAN_PROSES) + TIME_TO_SEC(pro.JOB_SET_UP) + TIME_TO_SEC(pro.TRIAL_NON_MACH) + TIME_TO_SEC(pro.OTHERS_PROSES)) AS totalpro, sum(TIME_TO_SEC(oth.PERSIAPAN_PROD) + TIME_TO_SEC(oth.LISTRIK_MATI) + TIME_TO_SEC(oth.KURAS_WASHING) + TIME_TO_SEC(oth.P5M) + TIME_TO_SEC(oth.MP_SAKIT) + TIME_TO_SEC(oth.OTHERS)) AS totaloth FROM tb_dt_terplanning AS plan join tb_dt_auto AS auto ON auto.id = plan.id join tb_dt_proses AS pro ON pro.id = auto.id join tb_dt_material AS mat ON mat.id = pro.id join tb_dt_mesin AS mach ON mach.id = mat.id join tb_dt_others AS oth ON oth.id = mach.id JOIN tb_produksi AS prod ON prod.id = oth.id WHERE plan.NAMA_PART = ? AND plan.LINE = ? AND plan.tanggal = CURDATE() AND plan.SHIFT = ?;', [namapart, line, 2], (err, rint) => {
-                socket.emit(`update-resume-${id}`, shift, rint[0].totalprod, rint[0].ok, rint[0].ng, rint[0].totalplan, rint[0].totalauto, rint[0].totalmesin, rint[0].totalmat, rint[0].totalpro, rint[0].totaloth)
-            })
+            shift = updateShift()
+            for (let i = 1; i<=3; i++) {
+                conLocal.query('SELECT plan.id, sum(prod.TOTAL_PRODUKSI) AS totalprod, sum(prod.OK) AS ok, sum(prod.NG) AS ng, sum(TIME_TO_SEC(plan.`5R`) + TIME_TO_SEC(plan.MP_PENGGANTI) + TIME_TO_SEC(plan.CT_TIDAK_STANDART) + TIME_TO_SEC(plan.MP_DIALIHKAN) + TIME_TO_SEC(plan.DANDORY) + TIME_TO_SEC(plan.PREVENTIVE_MAINT) + TIME_TO_SEC(plan.PROD_PART_LAIN) + TIME_TO_SEC(plan.`PRODUKSI_2/3_JIG`) + TIME_TO_SEC(plan.`PRODUKSI_1_M/P`) + TIME_TO_SEC(plan.`PRODUKSI_2_M/C`) + TIME_TO_SEC(plan.OVERLAP_LINE_LAIN) + TIME_TO_SEC(plan.LAYOFF_MANPOWER) + TIME_TO_SEC(plan.LAYOFF_TOOL_KOSONG) + TIME_TO_SEC(plan.LAYOFF_KOMP_SPM) + TIME_TO_SEC(plan.LAYOFF_KOMP_CNC) + TIME_TO_SEC(plan.PACKAGING_KOSONG) + TIME_TO_SEC(plan.LAYOFF_STOCK_WAITING)) AS totalplan, sum(TIME_TO_SEC(auto.gagal_vacum) + TIME_TO_SEC(auto.gagal_ambil) + TIME_TO_SEC(auto.instocker) + TIME_TO_SEC(auto.outstocker) + TIME_TO_SEC(auto.feeder) + TIME_TO_SEC(auto.flipper) + TIME_TO_SEC(auto.robot)) AS totalauto, sum(TIME_TO_SEC(mach.MC_TROUBLE) + TIME_TO_SEC(mach.MC_ASSY_TROUBLE) + TIME_TO_SEC(mach.MC_SPM_DRILL) + TIME_TO_SEC(mach.LT_TROUBLE) + TIME_TO_SEC(mach.WASHING_TROUBLE) + TIME_TO_SEC(mach.ANGIN_DROP) + TIME_TO_SEC(mach.PENAMBAHAN_COOLANT) + TIME_TO_SEC(mach.WARMING_UP) + TIME_TO_SEC(mach.OTHERS_MC)) AS totalmesin, sum(TIME_TO_SEC(mat.stock_waiting) + TIME_TO_SEC(mat.PARTIAL) + TIME_TO_SEC(mat.sortir) + TIME_TO_SEC(mat.innerpart_kosong) + TIME_TO_SEC(mat.repair_part) + TIME_TO_SEC(mat.trimming_part) + TIME_TO_SEC(mat.sto) + TIME_TO_SEC(mat.others_material)) AS totalmat, sum(TIME_TO_SEC(pro.SETTING_PROGRAM) + TIME_TO_SEC(pro.GANTI_TOOL) + TIME_TO_SEC(pro.TRIAL_MACHINING) + TIME_TO_SEC(pro.Q_TIME) + TIME_TO_SEC(pro.JIG_FIXTURE) + TIME_TO_SEC(pro.WAITING_CMM) + TIME_TO_SEC(pro.UKUR_MANUAL) + TIME_TO_SEC(pro.LT_IMPRAG) + TIME_TO_SEC(pro.GANTI_THREEBOND) + TIME_TO_SEC(pro.PERUBAHAN_PROSES) + TIME_TO_SEC(pro.JOB_SET_UP) + TIME_TO_SEC(pro.TRIAL_NON_MACH) + TIME_TO_SEC(pro.OTHERS_PROSES)) AS totalpro, sum(TIME_TO_SEC(oth.PERSIAPAN_PROD) + TIME_TO_SEC(oth.LISTRIK_MATI) + TIME_TO_SEC(oth.KURAS_WASHING) + TIME_TO_SEC(oth.P5M) + TIME_TO_SEC(oth.MP_SAKIT) + TIME_TO_SEC(oth.OTHERS)) AS totaloth FROM tb_dt_terplanning AS plan join tb_dt_auto AS auto ON auto.id = plan.id join tb_dt_proses AS pro ON pro.id = auto.id join tb_dt_material AS mat ON mat.id = pro.id join tb_dt_mesin AS mach ON mach.id = mat.id join tb_dt_others AS oth ON oth.id = mach.id JOIN tb_produksi AS prod ON prod.id = oth.id WHERE plan.NAMA_PART = ? AND plan.LINE = ? AND plan.tanggal = CURDATE() AND plan.SHIFT = ?;', [namapart, line, updateShift()], (err, rint) => {
+                    if (!rint[0].totalprod) {
+                        return
+                    } else {
+                        socket.emit(`update-resume-${id}`, shift, rint[0].totalprod, rint[0].ok, rint[0].ng, rint[0].totalplan, rint[0].totalauto, rint[0].totalmesin, rint[0].totalmat, rint[0].totalpro, rint[0].totaloth)
+                    }
+                })
+            }
             conLocal.query("select * from tb_data_hourly where nama_part = ? and line = ? and tanggal = curdate()", [namapart, line], (err, resl) => {
                 if (resl.length === 0) {
                     console.log('jam kosong')
@@ -164,13 +172,13 @@ exports.interval = (socket) => {
                     }
                 }
             })
-        }, 1000)
+        }, 2000)
 
     })
 }
 
 exports.disconnect = (socket) => {
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (data) => {
         clearInterval(interval)
         clearInterval(resume)
     })
