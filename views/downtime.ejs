@@ -211,8 +211,12 @@
           <div class="col-sm-2 col-sm-2 col-lg-2">
             <div class="card border-dark m-1" id="card-prodd">
               <div class="card-header bg-info border-dark" id="card-production" style="text-align: center; font-size: 12px; font-weight: bolder">PRODUCTION</div>
-              <div class="card-text mx-auto">
+              <div class="card-text mx-auto" id="div-totalp">
+                <% if (connStatus == 0) { %>
                 <h1 id="totalp"><%= totalp %></h1>
+                <% } else { %>
+                <input type="number" id="qyt-prod" name="production" class="m-0 no-outline" style="width: 150px;" value="<%= totalp %>">
+                <% } %>
               </div>
             </div>
           </div>

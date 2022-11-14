@@ -16,13 +16,14 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // module ejs
-app.set('view engine','ejs');
+app.set('view engine', 'ejs');
 // access file static
 app.use(express.static('public'));
 
 // listening to emit
 io.on('connection', (socket) => {
     socketInterval.interval(socket)
+    socketInterval.updateDcLHP(socket)
     socketDowntime.updateDT(socket)
     socketDowntime.selesaiDT(socket)
     socketDowntime.selesaiDTAuto(socket)

@@ -1,32 +1,62 @@
 // Socket.io
-const socket = io() 
+const socket = io()
 var t;
-var minutetotal = Math.floor((secondauto + secondmach + secondmat + secondothers + secondplan + secondpro)/60);
+var minutetotal = Math.floor((secondauto + secondmach + secondmat + secondothers + secondplan + secondpro) / 60);
 document.getElementById('totaldt').innerHTML = minutetotal + " mnt";
 var id;
 var dtclick = false;
 var $layoff = $('button.btn-secondary');
 
-
-    socket.emit('interval', idprod, namapart, line)
-
+socket.emit('interval', idprod, namapart, line)
 
 socket.on('disconnect')
 
-socket.on(`update-total-${idprod}`, (total, target) => {
-    if(total > totalp && dtclick == true) {
-        clearInterval(t);
-        socket.emit('dt-selesai-auto', idprod)
-        $inputs.prop('disabled', false);
-        dtclick = false;
+if ($('#qyt-prod').length) {
+    console.log('ada input')
+    socket.on(`update-total-${idprod}`, (total, target) => {
+        if (total > totalp && dtclick == true) {
+            socket.emit('dt-selesai-auto', idprod)
+            $inputs.prop('disabled', false);
+        }
+        totalp = total
+        ok = totalp - ng
+        document.getElementById("totalok").innerHTML = ok;
+        document.getElementById("ng").innerHTML = ng;
+        document.getElementById("target").innerHTML = target;
+        socket.emit('update-ng', ng, ok, idprod);
+    })
+    $('#qyt-prod').on('input', function () {
+        var val = $('#qyt-prod').val()
+        socket.emit('update-disconnected-lhp', val, idprod)
+        console.log(val)
+    })
+} else {
+    socket.on(`update-total-${idprod}`, (total, target) => {
+        if (total > totalp && dtclick == true) {
+            socket.emit('dt-selesai-auto', idprod)
+            $inputs.prop('disabled', false);
+        }
+        totalp = total
+        ok = totalp - ng
+        if (document.getElementById('totalp')) { document.getElementById("totalp").innerHTML = totalp; }
+        document.getElementById("totalok").innerHTML = ok;
+        document.getElementById("ng").innerHTML = ng;
+        document.getElementById("target").innerHTML = target;
+        socket.emit('update-ng', ng, ok, idprod);
+    })
+}
+
+socket.on('lhp-disconnected', (total) => {
+    if ($('#qyt-prod').length == false) {
+        document.getElementById('div-totalp').innerHTML = `<input type="number" id="qyt-prod" name="production" class="m-0 no-outline" style="width: 150px;" value="${total}">`
+        $('#qyt-prod').on('input', function () {
+            var val = $('#qyt-prod').val()
+            socket.emit('update-disconnected-lhp', val, idprod)
+            console.log(val)
+        })
+    } else {
+        console.log('already there!')
     }
-    totalp = total
-    ok = totalp - ng
-    document.getElementById("totalp").innerHTML = totalp;
-    document.getElementById("totalok").innerHTML = ok;
-    document.getElementById("ng").innerHTML = ng;
-    document.getElementById("target").innerHTML = target;
-    socket.emit('update-ng', ng, ok, idprod);
 })
 
 socket.on(`noclick-${idprod}`, dtcheck => {
@@ -40,6 +70,7 @@ $layoff.click(() => {
 
 $inputs.click(function () {
     $inputs.not(this).prop('disabled', true);
+    $layoff.prop('disabled', true)
     id = this.id;
     if (id == 'material-stock_waiting') {
         dtticket('Stock Waiting', 'stock_waiting', 'mat-sw', 'material', secondmat)
@@ -160,7 +191,7 @@ $inputs.click(function () {
     } else if (id == 'terplanning-packaging_kosong') {
         dtticket('Packaging Kosong', 'packaging_kosong', 'planning-packaging_kosong', 'terplanning', secondplan)
     }
-}); 
+});
 
 // function dtmaterial(api, mysql, idsec, key) {
 //     var namasql = mysql;
@@ -285,34 +316,35 @@ function dtticket(api, mysql, idsec, key, timer) {
     if (dtclick == false) {
         var second1;
         var minute;
-        socket.emit('update-dt', nrp, namaapi, 'asddasdasd', namapart, line, namasql, key, id, idprod) 
+        socket.emit('update-dt', nrp, namaapi, 'asddasdasd', namapart, line, namasql, key, id, idprod)
         socket.on('send-dt-value', (res) => {
             second1 = res;
-            minute = Math.floor(second1/60);
+            minute = Math.floor(second1 / 60);
         })
         t = setInterval(timerdt, 1000);
         dtclick = true
-    } 
+    }
     else {
         $('#exampleModal').modal('show');
         $('#modal-ya').click(() => {
             socket.emit('selesai-dt', idprod)
             clearInterval(t);
             $inputs.prop('disabled', false);
+            $layoff.prop('disabled', false)
             dtclick = false;
             $('#exampleModal').modal('hide');
         })
         $('#modal-no').on('click', () => {
             $('#exampleModal').modal('hide');
         });
-    } 
+    }
 }
 
 const layoff = () => {
     if (dtclick == false) {
         socket.emit('layoff', namapart, line)
         dtclick = true
-    } 
+    }
     else {
         // var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
         $('#exampleModal').modal('show');
@@ -349,25 +381,26 @@ function dtnoticket(api, mysql, idsec, key) {
         socket.emit('update-dt-mysql', namasql, key, id, idprod)
         socket.on('send-dt-value', (res) => {
             second1 = res;
-            minute = Math.floor(second1/60);
+            minute = Math.floor(second1 / 60);
             console.log(second1);
         })
         t = setInterval(timerdt, 1000);
         dtclick = true
-    } 
+    }
     else {
         $('#exampleModal').modal('show');
         $('#modal-ya').click(() => {
             socket.emit('selesai-noticket-dt')
             clearInterval(t);
             $inputs.prop('disabled', false);
+            $layoff.prop('disabled', false)
             dtclick = false;
             $('#exampleModal').modal('hide');
         })
         $('#modal-no').on('click', () => {
             $('#exampleModal').modal('hide');
         });
-    } 
+    }
 }
 // ganti id plan-timer di downtime.ejs
 
@@ -389,7 +422,7 @@ function dtnoticket(api, mysql, idsec, key) {
 //     if (dtclick == false) {
 //         var second1;
 //         var minute;
-//         socket.emit('update-dt-api', nrp, api, 'asddasdasd', namapart, line) 
+//         socket.emit('update-dt-api', nrp, api, 'asddasdasd', namapart, line)
 //         socket.emit('update-dt-mysql', namasql, 'others', id, idprod)
 //         socket.on('send-dt-value', (res) => {
 //             second1 = res;
@@ -397,13 +430,13 @@ function dtnoticket(api, mysql, idsec, key) {
 //         })
 //         t = setInterval(timerdt, 1000);
 //         dtclick = true
-//     } 
+//     }
 //     // else {
 //     //     socket.emit('selesai-dt')
 //     //     clearInterval(t);
 //     //     $inputs.prop('disabled', false);
 //     //     dtclick = false;
-//     // }  
+//     // }
 // }
 
 // function dtplan(api, mysql, idsec, key) {
@@ -423,7 +456,7 @@ function dtnoticket(api, mysql, idsec, key) {
 //     if (dtclick == false) {
 //         var second1;
 //         var minute;
-//         socket.emit('update-dt-api', nrp, api, 'asddasdasd', namapart, line) 
+//         socket.emit('update-dt-api', nrp, api, 'asddasdasd', namapart, line)
 //         socket.emit('update-dt-mysql', namasql, 'terplanning', id, idprod)
 //         socket.on('send-dt-value', (res) => {
 //             second1 = res;
@@ -432,13 +465,13 @@ function dtnoticket(api, mysql, idsec, key) {
 //         })
 //         t = setInterval(timerdt, 1000);
 //         dtclick = true
-//     } 
+//     }
 //     // else {
 //     //     socket.emit('selesai-dt')
 //     //     clearInterval(t);
 //     //     $inputs.prop('disabled', false);
 //     //     dtclick = false;
-//     // } 
+//     // }
 // }
 
 

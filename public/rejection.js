@@ -1,170 +1,204 @@
 //socket.io
 const socket = io();
- 
-var minutetotal = Math.floor((secondauto + secondmach + secondmat + secondothers + secondplan + secondpro)/60);
+
+var minutetotal = Math.floor((secondauto + secondmach + secondmat + secondothers + secondplan + secondpro) / 60);
 document.getElementById('totaldt').innerHTML = minutetotal + " mnt";
 console.log(undoTracker)
 
 socket.emit('interval', idprod, namapart, line)
 
-socket.on(`update-total-${idprod}`, (total, target) => {
-    if(total > totalp && dtclick == true) {
-        socket.emit('dt-selesai-auto', idprod)
-        $inputs.prop('disabled', false);
-    }
-    totalp = total
-    ok = totalp - ng
-    document.getElementById("totalp").innerHTML = totalp;
-    document.getElementById("totalok").innerHTML = ok;
-    document.getElementById("ng").innerHTML = ng;
-    document.getElementById("target").innerHTML = target;
-    socket.emit('update-ng', ng, ok, idprod);
-})
-
 socket.on(`noclick-${idprod}`, (status) => {
     $('button.btn-danger').prop('disabled', true)
+})
+
+if ($('#qyt-prod').length) {
+    console.log('ada input')
+    socket.on(`update-total-${idprod}`, (total, target) => {
+        if (total > totalp && dtclick == true) {
+            socket.emit('dt-selesai-auto', idprod)
+            $inputs.prop('disabled', false);
+        }
+        totalp = total
+        ok = totalp - ng
+        document.getElementById("totalok").innerHTML = ok;
+        document.getElementById("ng").innerHTML = ng;
+        document.getElementById("target").innerHTML = target;
+        socket.emit('update-ng', ng, ok, idprod);
+    })
+    $('#qyt-prod').on('input', function () {
+        var val = $('#qyt-prod').val()
+        socket.emit('update-disconnected-lhp', val, idprod)
+        console.log(val)
+    })
+} else {
+    socket.on(`update-total-${idprod}`, (total, target) => {
+        if (total > totalp && dtclick == true) {
+            socket.emit('dt-selesai-auto', idprod)
+            $inputs.prop('disabled', false);
+        }
+        totalp = total
+        ok = totalp - ng
+        if (document.getElementById('totalp')) { document.getElementById("totalp").innerHTML = totalp; }
+        document.getElementById("totalok").innerHTML = ok;
+        document.getElementById("ng").innerHTML = ng;
+        document.getElementById("target").innerHTML = target;
+        socket.emit('update-ng', ng, ok, idprod);
+    })
+}
+
+socket.on('lhp-disconnected', (total) => {
+    if ($('#qyt-prod').length == false) {
+        document.getElementById('div-totalp').innerHTML = `<input type="number" id="qyt-prod" name="production" class="m-0 no-outline" style="width: 150px;" value="${total}">`
+        $('#qyt-prod').on('input', function () {
+            var val = $('#qyt-prod').val()
+            socket.emit('update-disconnected-lhp', val, idprod)
+            console.log(val)
+        })
+    } else {
+        console.log('already there!')
+    }
 })
 
 socket.on('disconnect')
 
 function dimensi() {
     undoTracker = 1
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/dimensi/dm/1`
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/dimensi/dm/1`
 }
 
 function blong() {
     undoTracker = 2
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/blong/bl/2`
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/blong/bl/2`
 }
 
 function seret() {
     undoTracker = 3
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/seret/sr/3` 
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/seret/sr/3`
 }
 
 function dent() {
     undoTracker = 4
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/dent/dn/4`
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/dent/dn/4`
 }
 
 function uncutting() {
     undoTracker = 5
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/uncutting/uc/5`
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/uncutting/uc/5`
 }
 
 function step() {
-    undoTracker = 6 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/step/st/6`
+    undoTracker = 6
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/step/st/6`
 }
 
 function kasar() {
-    undoTracker = 7 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/kasar/ks/7`
+    undoTracker = 7
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/kasar/ks/7`
 }
 
 function ngassy() {
-    undoTracker = 8 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/ng_assy/na/8`
+    undoTracker = 8
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/ng_assy/na/8`
 }
 
 function rivet() {
-    undoTracker = 9 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/rivet/rv/9`
+    undoTracker = 9
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/rivet/rv/9`
 }
 
 function bimetal() {
-    undoTracker = 10 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/bimetal/bm/10`
+    undoTracker = 10
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/bimetal/bm/10`
 }
 
 function jointt() {
-    undoTracker = 11 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/joint_tube/jt/11`
+    undoTracker = 11
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/joint_tube/jt/11`
 }
 
 function plate() {
-    undoTracker = 12 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/plate/pl/12`
+    undoTracker = 12
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/plate/pl/12`
 }
 
 function nojig() {
-    undoTracker = 13 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/no_jig/nj/13`
+    undoTracker = 13
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/no_jig/nj/13`
 }
 
 function othersp() {
-    undoTracker = 14 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/others_p/op/14`
+    undoTracker = 14
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/others_p/op/14`
 }
 
 function keropos() {
-    undoTracker = 15 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/keropos/kr/15` 
+    undoTracker = 15
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/keropos/kr/15`
 }
 
 function bocor() {
-    undoTracker = 16 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/bocor/bc/16`
+    undoTracker = 16
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/bocor/bc/16`
 }
 
 function flowline() {
-    undoTracker = 17 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/flowline/fl/17`
+    undoTracker = 17
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/flowline/fl/17`
 }
 
 function retak() {
-    undoTracker = 18 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/retak/rt/18`
+    undoTracker = 18
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/retak/rt/18`
 }
 
 function gompal() {
-    undoTracker = 19 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/gompal/gp/19`
+    undoTracker = 19
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/gompal/gp/19`
 }
 
 function overp() {
-    undoTracker = 20 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/over_proses/ov/20`
+    undoTracker = 20
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/over_proses/ov/20`
 }
 
 function kurangp() {
-    undoTracker = 21 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/kurang_proses/kp/21` 
+    undoTracker = 21
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/kurang_proses/kp/21`
 }
 
 function jamur() {
-    undoTracker = 22 
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/jamur/jm/22`
+    undoTracker = 22
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/jamur/jm/22`
 }
 
 function undercut() {
     undoTracker = 23
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/undercut/un/23` 
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/undercut/un/23`
 }
 
 function dekok() {
     undoTracker = 24
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/dekok/dk/24`
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/dekok/dk/24`
 }
 
 function trial() {
     undoTracker = 25
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/trial/tr/25` 
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/trial/tr/25`
 }
 
 function uncutm() {
     undoTracker = 26
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/uncut_material/um/26`
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/uncut_material/um/26`
 }
 
 function othersm() {
     undoTracker = 27
-    location.href = `http://10.14.20.212:3000/${namapart}/${idprod}/${line}/locsheet/others_material/om/27`
+    location.href = `/${namapart}/${idprod}/${line}/locsheet/others_material/om/27`
 }
 
 function undo() {
     console.log(undoTracker)
-    switch(undoTracker) {
+    switch (undoTracker) {
         case 1:
             totaldimensi--;
             ng--;
@@ -252,7 +286,7 @@ function undo() {
             document.getElementById('jointt').innerHTML = totaljointt + " pcs";
             undoTracker = 0;
             socket.emit('update-reject', "joint_tube", totaljointt, idprod)
-            break;   
+            break;
         case 12:
             totalplate--;
             ng--;
