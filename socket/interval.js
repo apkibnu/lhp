@@ -40,6 +40,11 @@ exports.interval = (socket) => {
             conLocal.query("select * from tb_produksi where id = ? and tanggal = curdate()", [id], async (err, result1) => {
                 var date = new Date()
                 var now = (date.getHours() * 60) + date.getMinutes()
+                if (result1.length == 0) {
+                    clearInterval(global[`trgt-${line}-${namapart}-${id}`])
+                    global[`trgt-${line}-${namapart}-${id}`] = null
+                    return
+                }
                 let [stat, fields] = await conTicketP.execute("select status from tb_line where nama_line = ? and nama_part = ?", [result1[0].LINE, result1[0].NAMA_PART])
                 if (updateShift() != result1[0].SHIFT) {
                     clearInterval(global[`trgt-${line}-${namapart}-${id}`])
