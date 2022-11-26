@@ -31,7 +31,6 @@ exports.updateDT = (socket) => {
                     global[`dtint-${parse.message}`] = setInterval(function () {
                         conLocal.query("select * from tb_produksi where id = ? and nama_part = ? and line = ? and tanggal = curdate()", [idlap, nama_part, lane], async (err, result1) => {
                             shift = updateShift()
-                            console.log(updateShift(), result1[0].SHIFT)
                             if (updateShift() != result1[0].SHIFT && global[`dtint-${global[`tid-${idlap}`]}`]) {
                                 try {
                                     const body = {};

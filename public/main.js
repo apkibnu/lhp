@@ -68,7 +68,7 @@ $layoff.click(() => {
     layoff();
 })
 
-$inputs.click(function () {
+$inputs.unbind().click(function () {
     $inputs.not(this).prop('disabled', true);
     $layoff.prop('disabled', true)
     id = this.id;
@@ -317,20 +317,50 @@ function dtticket(api, mysql, idsec, key, timer) {
         var second1;
         var minute;
         socket.emit('update-dt', nrp, namaapi, 'asddasdasd', namapart, line, namasql, key, id, idprod)
-        socket.on('send-dt-value', (res) => {
+        socket.off().on('send-dt-value', (res) => {
             second1 = res;
             minute = Math.floor(second1 / 60);
+            console.log('get second done')
+            window[`int-${key}-${mysql}`] = setInterval(() => {
+                switch (key) {
+                    case 'auto':
+                        timer = secondauto++
+                        break
+                    case 'material':
+                        timer = secondmat++
+                        break
+                    case 'proses':
+                        timer = secondpro++
+                        break
+                    case 'mesin':
+                        timer = secondmach++
+                        break
+                    case 'others':
+                        timer = secondothers++
+                        break
+                    case 'terplanning':
+                        timer = secondplan++
+                        break
+                }
+                second1 += 1;
+                document.getElementById(`${key}-timer`).innerHTML = timer + " sec";
+                if (second1 % 60 == 0) {
+                    minute += 1;
+                    minutetotal += 1;
+                    document.getElementById('totaldt').innerHTML = minutetotal + " mnt";
+                    document.getElementById(idsec).innerHTML = minute + " mnt";
+                }
+            }, 1000);
         })
-        t = setInterval(timerdt, 1000);
         dtclick = true
     }
     else {
         $('#exampleModal').modal('show');
         $('#modal-ya').click(() => {
             socket.emit('selesai-dt', idprod)
-            clearInterval(t);
+            clearInterval(window[`int-${key}-${mysql}`]);
+            window[`int-${key}-${mysql}`] = undefined
             $inputs.prop('disabled', false);
-            $layoff.prop('disabled', false)
             dtclick = false;
             $('#exampleModal').modal('hide');
         })
