@@ -12,7 +12,7 @@ const conLocalP = mysqlp.createPool({
     host: "localhost",
     user: "root",
     password: "",
-    database: "smartsys_Monitoring_mach",
+    database: "smartsys_monitoring_mach",
     waitForConnections: true,
     connectionLimit: 10,
 })
