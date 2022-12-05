@@ -46,7 +46,7 @@ exports.interval = (socket) => {
                     return
                 }
                 let [stat, fields] = await conTicketP.execute("select status from tb_line where nama_line = ? and nama_part = ?", [result1[0].LINE, result1[0].NAMA_PART])
-                let [check, f] = await conLocalP.execute("select id from tb_produksi where line = ? and nama_part = ?", [result1[0].LINE, result1[0].NAMA_PART])
+                let [check, f] = await conLocalP.execute("select id from tb_produksi where line = ? and nama_part = ? and tanggal = curdate() and shift = ?", [result1[0].LINE, result1[0].NAMA_PART, updateShift()])
                 if (updateShift() != result1[0].SHIFT) {
                     clearInterval(global[`trgt-${line}-${namapart}-${id}`])
                     global[`trgt-${line}-${namapart}-${id}`] = null
@@ -108,6 +108,7 @@ exports.interval = (socket) => {
             if (result12.length === 0) {
                 console.log('LHP not found!')
                 clearInterval(global[`interval ${socket.id}`])
+                global[`interval ${socket.id}`] = null
             } else {
                 shift = updateShift()
                 conLocal.query('select disconnected as dc from tb_produksi where id = ?', [id], (err, resdc) => {
@@ -130,8 +131,9 @@ exports.interval = (socket) => {
                 let resoee = await conLocalP.execute('update tb_produksi set ava = ?, per = ?, qua = ?, oee = ? where id = ?', [ava.toFixed(3), per.toFixed(3), qua.toFixed(3), oee.toFixed(3), id])
                 let [resc, fields3] = await conLocalP.execute("select * from tb_data_hourly where tanggal = curdate() and shift = ? and jam = ? and nama_part = ? and line = ? and idlap = ?", [shift + "", now, namapart, line, id])
                 if (shift != reshour[0].SHIFT) {
-                    console.log(reshour[0].SHIFT, shift)
+                    console.log(parseInt(reshour[0].SHIFT), shift)
                     clearInterval(global[`interval ${socket.id}`])
+                    global[`interval ${socket.id}`] = null
                 }
                 else if (resc.length === 0) {
                     socket.emit(`update-total-${id}`, result12[0].TOTAL_PRODUKSI, result12[0].TARGET)
