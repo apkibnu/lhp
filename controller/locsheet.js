@@ -18,11 +18,11 @@ exports.locSheetGet = (req, res) => {
         if (err) { res.send(err) }
         else {
             if (result1.length == 0) {
-                res.send('Access Denied! 1')
+                res.redirect('Access Denied! 1')
             } else {
                 shift = updateshift()
-                if (shift != result1[0].SHIFT) {
-                    res.send('Access Denied! 2')
+                if (shift != parseInt(result1[0].SHIFT)) {
+                    res.redirect('/')
                 } else {
                     conLogin.query('select nama from karyawan where nrp = ?', [result1[0].NRP1], (err, resname) => {
                         if (err) { throw err }
@@ -64,8 +64,8 @@ exports.locSheetPost = (req, res) => {
                 res.send('Access Denied!')
             } else {
                 shift = updateshift()
-                if (shift != result1[0].SHIFT) {
-                    res.send('Access Denied!')
+                if (shift != parseInt(result1[0].SHIFT)) {
+                    res.redirect('/')
                 } else {
                     global[`undoTracker-${req.params.nomorlhp}`] = req.params.kodeundo
                     conLocal.query("update tb_rejection set ?? = ?? + 1 where ID = ?", [req.params.reject, req.params.reject, req.params.nomorlhp], (err, result) => {

@@ -35,6 +35,15 @@ const conTicketP = mysqlp.createPool({
     connectionLimit: 10,
 })
 
+const conInputP = mysqlp.createPool({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "trial",
+    waitForConnections: true,
+    connectionLimit: 10,
+})
+
 // Connection error, 2 seconds retry
 conLocal.connect(function (err) {
     if (err) {
@@ -78,4 +87,4 @@ conLogin.connect(function (err) {
     }
 });
 
-module.exports = { conLocal, conTicket, conLogin, conLocalP, conLoginP, conTicketP }
+module.exports = { conLocal, conTicket, conLogin, conLocalP, conLoginP, conTicketP, conInputP }

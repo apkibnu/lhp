@@ -13,10 +13,10 @@ exports.mainPage = async (req, res) => {
     shift = updateshift()
     let [result1, fields] = await conLocalP.execute("select * from tb_produksi where id = ? and nama_part = ? and line = ? and tanggal = curdate()", [req.params.nomorlhp, namapart, line])
     if (result1.length == 0) {
-        res.send('kosong')
+        res.redirect('/')
     } else {
-        if (shift != result1[0].SHIFT) {
-            res.send('Access Denied')
+        if (shift != parseInt(result1[0].SHIFT)) {
+            res.redirect('/')
         } else {
             const ressql = async () => {
                 try {
@@ -61,11 +61,11 @@ exports.DTPage = async (req, res) => {
     conLocal.query("select * from tb_produksi where id = ? and nama_part = ? and tanggal = curdate()", [lhpid, namapart], async (err, result1) => {
         if (err) { throw err }
         else if (result1.length == 0) {
-            res.send('kosong')
+            res.redirect('/')
         } else {
             shift = updateshift()
-            if (shift != result1[0].SHIFT) {
-                res.send('kosong tanggal')
+            if (shift != parseInt(result1[0].SHIFT)) {
+                res.redirect('/')
             } else {
                 let ressql = async () => {
                     try {
@@ -121,11 +121,11 @@ exports.resumePage = (req, res) => {
     conLocal.query("select * from tb_produksi join tb_line on tb_produksi.nama_part = tb_line.nama_part and tb_produksi.line = tb_line.nama_line where tb_produksi.id = ? and tb_produksi.nama_part = ? and tb_produksi.tanggal = curdate()", [req.params.nomorlhp, namapart], async (err, result1) => {
         if (err) { throw err }
         else if (result1.length == 0) {
-            res.send('kosong')
+            res.redirect('/')
         } else {
             shift = updateshift()
-            if (shift != result1[0].SHIFT) {
-                res.send('kosong tanggal')
+            if (shift != parseInt(result1[0].SHIFT)) {
+                res.redirect('/')
             } else {
                 const ressql = async () => {
                     try {

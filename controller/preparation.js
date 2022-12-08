@@ -1,6 +1,7 @@
 const db = require('../config/db')
 const updateshift = require('../config/shift')
 const conLocal = db.conLocal;
+const conInputP = db.conInputP;
 let shift;
 
 exports.home = (req, res) => {
@@ -19,15 +20,16 @@ exports.home = (req, res) => {
 }
 
 exports.prep = (req, res) => {
-    var part = req.body.namapart
-    var api = part.replace("/", "+")
-    var nrp1 = req.body.nrp1;
-    var nrp2 = req.body.nrp2;
-    var nrp3 = req.body.nrp3;
-    var nrp4 = req.body.nrp4;
+    let part = req.body.namapart
+    let cluster = req.body.cluster
+    let api = part.replace("/", "+")
+    let nrp1 = req.body.nrp1;
+    let nrp2 = req.body.nrp2;
+    let nrp3 = req.body.nrp3;
+    let nrp4 = req.body.nrp4;
     shift = updateshift()
     conLocal.query("select tb_produksi.ID, tb_produksi.SHIFT, tb_line.CYCLE_TIME from tb_produksi join tb_line on tb_produksi.LINE = tb_line.NAMA_LINE and tb_produksi.NAMA_PART = tb_line.NAMA_PART where tb_produksi.line = ? and tb_produksi.nama_part = ? and tb_produksi.shift = ? and tb_produksi.tanggal = curdate() AND (tb_produksi.nrp1 = ? OR tb_produksi.nrp1 = ? OR tb_produksi.nrp1 = ? OR tb_produksi.nrp1 = ?) AND (tb_produksi.nrp2 = ? OR tb_produksi.nrp2 = ? OR tb_produksi.nrp2 = ? OR tb_produksi.nrp2 = ?) AND (tb_produksi.nrp3 = ? OR tb_produksi.nrp3 = ? OR tb_produksi.nrp3 = ? OR tb_produksi.nrp3 = ?) AND (tb_produksi.nrp4 = ? OR tb_produksi.nrp4 = ? OR tb_produksi.nrp4 = ? OR tb_produksi.nrp4 = ?)", [req.body.line, part, updateshift(), nrp1, nrp2, nrp3, nrp4, nrp1, nrp2, nrp3, nrp4, nrp1, nrp2, nrp3, nrp4, nrp1, nrp2, nrp3, nrp4], (err, rescheck) => {
-        conLocal.query("select * from tb_produksi where nama_part = ? and line = ? and tanggal = curdate() and shift = ?", [part, req.body.line, updateshift()], (err, resdouble) => {
+        conLocal.query("select * from tb_produksi where nama_part = ? and line = ? and tanggal = curdate() and shift = ?", [part, req.body.line, updateshift()], async (err, resdouble) => {
             if (err) {
                 res.send(err)
             } else if (rescheck.length > 0) {
@@ -38,7 +40,10 @@ exports.prep = (req, res) => {
             } else if (resdouble.length > 0) {
                 res.redirect('/')
             } else {
-                conLocal.query("INSERT INTO tb_produksi (tanggal, shift, nrp1, nrp2, nrp3, nrp4, line, nama_part) VALUES (curdate(), '?', ?, ?, ?, ?, ?, ?);", [updateshift(), nrp1, nrp2, nrp3, nrp4, req.body.line, part], (err, resauto) => { })
+                let [respart, f] = await db.conLocalP.execute('select id from tb_part where nama_part = ?', [part])
+                let idinput = `${cluster.slice(8)}-${req.body.line.slice(5)}-${respart[0].id}%`
+                let [resinput, f1] = await conInputP.execute('select count(id) as target from input where id like ?', [idinput])
+                conLocal.query("INSERT INTO tb_produksi (tanggal, shift, nrp1, nrp2, nrp3, nrp4, line, nama_part, target) VALUES (curdate(), '?', ?, ?, ?, ?, ?, ?, ?);", [updateshift(), nrp1, nrp2, nrp3, nrp4, req.body.line, part, resinput[0].target], (err, resauto) => {if (err) console.log(err)})
                 conLocal.query("INSERT INTO tb_rejection (tanggal, shift, nrp1, nrp2, nrp3, nrp4, line, nama_part) VALUES (curdate(), '?', ?, ?, ?, ?, ?, ?);", [updateshift(), nrp1, nrp2, nrp3, nrp4, req.body.line, part], (err, resreject) => { })
                 conLocal.query("INSERT INTO tb_dt_auto (tanggal, shift, nrp1, nrp2, nrp3, nrp4, line, nama_part) VALUES (curdate(), '?', ?, ?, ?, ?, ?, ?);", [updateshift(), nrp1, nrp2, nrp3, nrp4, req.body.line, part], (err, resauto) => { })
                 conLocal.query("INSERT INTO tb_dt_material (tanggal, shift, nrp1, nrp2, nrp3, nrp4, line, nama_part) VALUES (curdate(), '?', ?, ?, ?, ?, ?, ?);", [updateshift(), nrp1, nrp2, nrp3, nrp4, req.body.line, part], (err, resmat) => { })
